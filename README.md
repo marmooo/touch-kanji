@@ -9,7 +9,7 @@
 
 ## Build
 1. ```node build.js```
-2. ```node build.sh```
+2. ```bash build.sh```
 
 ## References
 - [常用漢字表](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kakuki/14/tosin02/index.html)
