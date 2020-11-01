@@ -33,7 +33,7 @@ function changeGrade(obj) {
   var problems = document.getElementById('problems');
   setProblems(problems);
   setCleared(problems);
-  loaclStorage.setItem('grade', grade);
+  localStorage.setItem('grade', grade);
 }
 
 function toKanji(kanjiId) {
