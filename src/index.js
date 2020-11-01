@@ -26,6 +26,7 @@ let level = 1;
 let grade = 4;
 if (localStorage.getItem('grade')) {
   grade = parseInt(localStorage.getItem('grade'));
+  document.getElementById('gradeOption').options[grade - 1].selected = true;
 }
 
 function changeGrade(obj) {
