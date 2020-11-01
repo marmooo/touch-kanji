@@ -25,7 +25,7 @@ const grades = ['小1', '小1', '小2', '小3', '小4', '小5', '小6', '中2', 
 let level = 1;
 let grade = 4;
 if (localStorage.getItem('grade')) {
-  grade = int(localStorage.getItem('grade'));
+  grade = parseInt(localStorage.getItem('grade'));
 }
 
 function changeGrade(obj) {
