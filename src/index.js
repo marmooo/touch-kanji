@@ -24,12 +24,16 @@ const gradeByKanjis = [w1_, w1_, w2_, w3_, w4_, w5_, w6_, w7_, w8_, w9_];
 const grades = ['小1', '小1', '小2', '小3', '小4', '小5', '小6', '中2', '中3', '常用'];
 let level = 1;
 let grade = 4;
+if (localStorage.getItem('grade')) {
+  grade = int(loaclStorage.getItem('grade'));
+}
 
 function changeGrade(obj) {
   grade = obj.selectedIndex + 1;
   var problems = document.getElementById('problems');
   setProblems(problems);
   setCleared(problems);
+  loaclStorage.setItem('grade', grade);
 }
 
 function toKanji(kanjiId) {
