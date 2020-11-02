@@ -308,6 +308,7 @@ function setSignaturePad(object) {
     maxWidth: 2,
     penColor: 'black',
     throttle: 0,
+    minDistance: 0,
   });
 }
 
