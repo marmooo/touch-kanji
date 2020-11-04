@@ -203,13 +203,14 @@ function loadSVG(kanjiId, parentNode, pos, loadCanvas) {
 }
 
 function showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu) {
+  var kanjiScore = Math.round(kanjiScore);
   if (kanjiScore >= 80) {
     correctAudio.play();
   } else {
     incorrectAudio.play();
   }
   scoreObj.classList.remove('d-none');
-  scoreObj.innerText = Math.round(kanjiScore);
+  scoreObj.innerText = kanjiScore;
   for (var i=0; i<kakusu; i++) {
     changePathColor(i+1, tehonKanji, kanjiId, 'black');
   }
