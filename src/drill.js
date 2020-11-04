@@ -617,4 +617,15 @@ function initQuery(mode) {
     document.getElementById('problems').children[0].shadowRoot.querySelector('#guard').style.height = '0';
   });
 }
-
+// https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
+// 手を置いた時の誤爆を防ぎつつスクロールは許可
+document.body.addEventListener("touchstart", function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive:false });
+document.body.addEventListener("touchmove", function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive:false });

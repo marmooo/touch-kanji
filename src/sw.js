@@ -1,4 +1,4 @@
-var CACHE_NAME = '2020-11-02 22:10';
+var CACHE_NAME = '2020-11-04 23:10';
 var urlsToCache = [
   '/touch-kanji/',
   '/touch-kanji/index.js',
