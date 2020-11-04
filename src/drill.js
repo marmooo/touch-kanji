@@ -316,7 +316,7 @@ function setEraser(tegakiPad, tegakiPanel, object, kanjiId) {
   object.parentNode.querySelector('#eraser').onclick = function() {
     var data = tegakiPad.toData();
     if (data) {
-      data.clear();
+      tegakiPad.clear();
     }
     var pos = parseInt(object.dataset.pos);
     var scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector('#score');
