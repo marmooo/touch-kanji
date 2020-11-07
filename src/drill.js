@@ -243,7 +243,7 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
     var kanjiScores = 0;
     var tegakiData = tegakiPads[i].toData();
     if (tegakiData.length != 0) {
-      var tehonKanji = tehonPanel.children[pos].shadowRoot.querySelector('object').contentDocument;
+      var tehonKanji = tehonPanel.children[pos].shadowRoot.querySelector('object');
       var scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector('#score');
       var kakuScores = getKakuScores(tegakiData, object, kanjiId, kakusu);
       kanjiScores = getKanjiScores(kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu);
@@ -406,8 +406,8 @@ function changeAllColor(object, kanjiId, color) {
   paths.style.stroke = color;
 }
 
-function changePathColor(pos, kanji, kanjiId, color) {
-  var path = kanji.getElementById('kvg:' + kanjiId + '-s' + pos);
+function changePathColor(pos, object, kanjiId, color) {
+  var path = object.contentDocument.getElementById('kvg:' + kanjiId + '-s' + pos);
   path.setAttribute('stroke', color);
 }
 
