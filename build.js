@@ -240,12 +240,11 @@ for (var level=1; level<gradeByKanjis.length - 1; level++) {
     if (regularInfo) {
       words = regularInfo['用例'];
     }
-    words.filter(words => words.length == 1);
     words.push(...getNgramIdioms(kanji, level));
     words.push(...getAdditionalIdioms(kanji));
     words = uniq(words);
     words.forEach(word => {
-      if (word.length != 1 && isValidWord(word, level)) {
+      if (1 < words.length && word.length <= 5 && isValidWord(word, level)) {
         var yomis = yomiDict.get(word);
         if (yomis) {
           info[kanji].push(word + '|' + yomis.join(','));
