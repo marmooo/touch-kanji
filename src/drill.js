@@ -152,23 +152,6 @@ function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
   });
 }
 
-function fetchKanjiSVG(kanjiId) {
-  return new Promise((resolve, reject) => {
-    fetch(kanjivgDir + '/' + kanjiId + '.svg')
-      .then(response => response.text())
-      .then(text => {
-        const parser = new DOMParser();
-        return parser.parseFromString(text, 'text/html');
-      }).then(html => {
-        var kanji = html.getElementsByTagName('svg')[0];
-        kanji.setAttribute('width', canvasSize);
-        kanji.setAttribute('height', canvasSize);
-        kanji.removeAttribute('id');
-        resolve(html);
-      });
-  });
-}
-
 function setSVGTemplate(width, height) {
   var object = document.createElement('object');
   object.setAttribute('type', 'image/svg+xml');
@@ -427,19 +410,13 @@ function countNoTransparent(data) {
   return count;
 }
 
-function getInclusionCount(markerPad, markerContext, tegakiDatum, tehonData) {
-  markerPad.clear();
-  markerPad.fromData([tegakiDatum]);
-  var tegakiImageData = markerContext.getImageData(0, 0, canvasSize, canvasSize);
-  var tegakiData = tegakiImageData.data;
-  for (var i=0; i<tegakiData.length; i++) {
-    if (tehonData[i] != 0) {
-      tegakiData[i] = 0;
+function getInclusionCount(tegakiImgData, tehonImgData) {
+  for (var i=0; i<tegakiImgData.length; i++) {
+    if (tehonImgData[i] != 0) {
+      tegakiImgData[i] = 0;
     }
   }
-  markerContext.putImageData(tegakiImageData, 0, 0);
-  var imgData = markerContext.getImageData(0, 0, canvasSize, canvasSize);
-  var inclusionCount = countNoTransparent(imgData.data);
+  var inclusionCount = countNoTransparent(tegakiImgData);
   return inclusionCount;
 }
 
@@ -473,16 +450,15 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
         penColor: 'black',
       });
       markerPad.fromData([tegakiData[i]]);
-      var data = markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
-      var tegakiCount = countNoTransparent(data);
+      var kakuData = markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
+      var tegakiCount = countNoTransparent(kakuData);
       var tegakiDatum = tegakiData[i];
       getTehonCanvas(object, kanjiId, kakusu, i+1).then(tehonCanvas => {
-        markerContext.clearRect(0, 0, canvasSize, canvasSize);
-        var tehonImageData = tehonCanvas.getContext('2d').getImageData(0, 0, canvasSize, canvasSize);
-        var tehonData = tehonImageData.data;
-        var tehonCount = countNoTransparent(tehonData);
+        var tehonImgData = tehonCanvas.getContext('2d').getImageData(0, 0, canvasSize, canvasSize).data;
+        var tehonCount = countNoTransparent(tehonImgData);
 
-        var inclusionCount = getInclusionCount(markerPad, markerContext, tegakiDatum, tehonData);
+        var tegakiImgData = markerContext.getImageData(0, 0, canvasSize, canvasSize);
+        var inclusionCount = getInclusionCount(tegakiImgData, tehonImgData);
         var kakuScore = calcKakuScore(tegakiCount, tehonCount, inclusionCount);
         resolve(kakuScore);
       });
