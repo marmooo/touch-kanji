@@ -265,6 +265,8 @@ function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPa
         var next = problemBox.nextElementSibling;
         if (next) {
           next.shadowRoot.querySelector('#guard').style.height = '0';
+          var scroll = new SmoothScroll();
+          scroll.animateScroll(next);
         }
       }
       // 点数があまりにも低いものは合格リストから除外
@@ -594,15 +596,17 @@ function initQuery(mode) {
     document.getElementById('problems').children[0].shadowRoot.querySelector('#guard').style.height = '0';
   });
 }
+// https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
-document.body.addEventListener("touchstart", function(e) {
-  if (e.touches && e.touches.length > 1) {
+window.addEventListener("touchstart", function(e) {
+  if (e.target.tagName != 'PROBLEM-BOX') {
     e.preventDefault();
   }
 }, { passive:false });
-document.body.addEventListener("touchmove", function(e) {
-  if (e.touches && e.touches.length > 1) {
+window.addEventListener("touchmove", function(e) {
+  if (e.target.tagName != 'PROBLEM-BOX') {
     e.preventDefault();
   }
 }, { passive:false });
+
