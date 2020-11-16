@@ -43,7 +43,7 @@ function changePathColor(pos,object,kanjiId,color){var path=object.contentDocume
 function removeNumbers(object,kanjiId){var id='kvg:StrokeNumbers_'+kanjiId;var numbers=object.contentDocument.querySelector('[id="'+id+'"]');numbers.remove();}
 function countNoTransparent(data){var count=0;for(var i=3;i<data.length;i+=4){if(data[i]!=0){count+=1;}}
 return count;}
-function getInclusionCount(tegakiImgData,tehonImgData){for(var i=0;i<tegakiImgData.length;i++){if(tehonImgData[i]!=0){tegakiImgData[i]=0;}}
+function getInclusionCount(tegakiImgData,tehonImgData){for(var i=3;i<tegakiImgData.length;i+=4){if(tehonImgData[i]!=0){tegakiImgData[i]=0;}}
 var inclusionCount=countNoTransparent(tegakiImgData);return inclusionCount;}
 function calcKakuScore(tegakiCount,tehonCount,inclusionCount){var lineScore=(1-Math.abs((tehonCount-tegakiCount)/tehonCount))*1.1;if(lineScore>1){lineScore=1;}
 var inclusionScore=(tegakiCount-inclusionCount)/tegakiCount*2;if(inclusionScore>1){inclusionScore=1;}

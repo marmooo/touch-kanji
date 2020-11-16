@@ -413,7 +413,7 @@ function countNoTransparent(data) {
 }
 
 function getInclusionCount(tegakiImgData, tehonImgData) {
-  for (var i=0; i<tegakiImgData.length; i++) {
+  for (var i=3; i<tegakiImgData.length; i+=4) {
     if (tehonImgData[i] != 0) {
       tegakiImgData[i] = 0;
     }
