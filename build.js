@@ -270,11 +270,14 @@ for (var level=1; level<gradeByKanjis.length - 1; level++) {
       fs.appendFileSync('build.log', kanji + ' < 8!\n');
     }
   });
-  for (var [kanji, examples] of Object.entries(info)) {
-    if (examples.length < 4) {
+  gradeByKanjis[level].forEach(kanji => {
+    var examples = info[kanji];
+    if (!examples) {
+      fs.appendFileSync('build.log', kanji + ' = 0!\n');
+    } else if (examples.length < 4) {
       fs.appendFileSync('build.log', kanji + ' < 4!\n');
     }
-  }
+  });
   fs.writeFileSync(`src/data/${level}.json`, JSON.stringify(info));
 }
 
