@@ -198,7 +198,7 @@ function showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, ka
     changePathColor(i+1, tehonKanji, kanjiId, 'black');
   }
   for (var i=0; i<kakusu; i++) {
-    if (!kakuScores[i] || kakuScores[i] < 80) {
+    if (!kakuScores[i][0] || kakuScores[i][0] < 80) {
       changePathColor(i+1, tehonKanji, kanjiId, 'red');
     }
   }
@@ -210,8 +210,13 @@ function showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, ka
 function getKanjiScores(kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu) {
   return Promise.all(kakuScores).then(kakuScores => {
     var kanjiScore = 0;
-    kakuScores.forEach(kakuScore => kanjiScore += kakuScore );
-    kanjiScore /= kakusu;
+    var totalTehonCount = 0;
+    kakuScores.forEach(kakuData => {
+      var [kakuScore, tehonCount] = kakuData;
+      kanjiScore += kakuScore * tehonCount;
+      totalTehonCount += tehonCount;
+    });
+    kanjiScore /= totalTehonCount;
     showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu);
     return kanjiScore;
   });
@@ -423,11 +428,11 @@ function getInclusionCount(tegakiImgData, tehonImgData) {
 }
 
 function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
-  // 線長を優遇し過ぎると ["未","末"], ["土","士"] の見分けができなくなる (10% 許容)
-  var lineScore = (1 - Math.abs((tehonCount - tegakiCount) / tehonCount)) * 1.1;
+  // 線長を優遇し過ぎると ["未","末"], ["土","士"] の見分けができなくなる
+  var lineScore = (1 - Math.abs((tehonCount - tegakiCount) / tehonCount));
   if (lineScore > 1) { lineScore = 1; }
-  // 包含率を優遇し過ぎると ["一","つ"], ["二","＝"] の見分けができなくなる (50% 許容)
-  var inclusionScore = (tegakiCount - inclusionCount) / tegakiCount * 2;
+  // 包含率を優遇し過ぎると ["一","つ"], ["二","＝"] の見分けができなくなる
+  var inclusionScore = (tegakiCount - inclusionCount) / tegakiCount;
   if (inclusionScore > 1) { inclusionScore = 1; }
   var kakuScore = lineScore * inclusionScore * 100;
   if (kakuScore <   0) { kakuScore =   0; }
@@ -439,31 +444,40 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
 function getKakuScores(tegakiData, object, kanjiId, kakusu) {
   var strokeWidth = setStrokeWidth(kakusu);
   var markerWidth = strokeWidth * 0.7;  // TODO: strokeWidth に合わせる (正確な数値は不明)
-  var promises = new Array(tegakiData.length);
-  for (var i=0; i<tegakiData.length; i++) {
+  var promises = new Array(kakusu);
+  for (var i=0; i<kakusu; i++) {
     promises[i] = new Promise((resolve, reject) => {
-      var markerCanvas = document.createElement('canvas');
-      markerCanvas.setAttribute('width', canvasSize);
-      markerCanvas.setAttribute('height', canvasSize);
-      var markerContext = markerCanvas.getContext('2d');
-      var markerPad = new SignaturePad(markerCanvas, {
-        minWidth: markerWidth,
-        maxWidth: markerWidth,
-        penColor: 'black',
-      });
-      markerPad.fromData([tegakiData[i]]);
-      var kakuData = markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
-      var tegakiCount = countNoTransparent(kakuData);
-      var tegakiDatum = tegakiData[i];
-      getTehonCanvas(object, kanjiId, kakusu, i+1).then(tehonCanvas => {
-        var tehonImgData = tehonCanvas.getContext('2d').getImageData(0, 0, canvasSize, canvasSize).data;
-        var tehonCount = countNoTransparent(tehonImgData);
+      if (tegakiData[i]) {
+        var markerCanvas = document.createElement('canvas');
+        markerCanvas.setAttribute('width', canvasSize);
+        markerCanvas.setAttribute('height', canvasSize);
+        var markerContext = markerCanvas.getContext('2d');
+        var markerPad = new SignaturePad(markerCanvas, {
+          minWidth: markerWidth,
+          maxWidth: markerWidth,
+          penColor: 'black',
+        });
+        markerPad.fromData([tegakiData[i]]);
+        var kakuData = markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
+        var tegakiCount = countNoTransparent(kakuData);
+        var tegakiDatum = tegakiData[i];
+        getTehonCanvas(object, kanjiId, kakusu, i+1).then(tehonCanvas => {
+          var tehonImgData = tehonCanvas.getContext('2d').getImageData(0, 0, canvasSize, canvasSize).data;
+          var tehonCount = countNoTransparent(tehonImgData);
 
-        var tegakiImgData = markerContext.getImageData(0, 0, canvasSize, canvasSize);
-        var inclusionCount = getInclusionCount(tegakiImgData, tehonImgData);
-        var kakuScore = calcKakuScore(tegakiCount, tehonCount, inclusionCount);
-        resolve(kakuScore);
-      });
+          var tegakiImgData = markerContext.getImageData(0, 0, canvasSize, canvasSize);
+          var inclusionCount = getInclusionCount(tegakiImgData, tehonImgData);
+          var kakuScore = calcKakuScore(tegakiCount, tehonCount, inclusionCount);
+          resolve([kakuScore, tehonCount]);
+        });
+      } else {
+        var tegakiCount = 0;
+        getTehonCanvas(object, kanjiId, kakusu, i+1).then(tehonCanvas => {
+          var tehonImgData = tehonCanvas.getContext('2d').getImageData(0, 0, canvasSize, canvasSize).data;
+          var tehonCount = countNoTransparent(tehonImgData);
+          resolve([0, tehonCount]);
+        });
+      }
     });
   }
   return promises;
