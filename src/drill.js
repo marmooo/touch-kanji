@@ -152,22 +152,12 @@ function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
   });
 }
 
-function setSVGTemplate(width, height) {
-  var object = document.createElement('object');
-  object.setAttribute('type', 'image/svg+xml');
-  object.setAttribute('width', width);
-  object.setAttribute('height', height);
-  object.style.display = 'block';
-  return object;
-}
-const kanjiTemplate = setSVGTemplate(canvasSize, canvasSize);
-
 function toKanjiId(str) {
   var hex = str.codePointAt(0).toString(16);
   return ('00000' + hex).slice(-5);
 }
 
-function loadSVG(kanjiId, parentNode, pos, loadCanvas) {
+function loadSVG(kanji, kanjiId, parentNode, pos, loadCanvas) {
   var box;
   if (loadCanvas) {
     box = document.createElement('tegaki-box');
@@ -175,6 +165,7 @@ function loadSVG(kanjiId, parentNode, pos, loadCanvas) {
     box = document.createElement('tehon-box');
   }
   var object = box.shadowRoot.querySelector('object');
+  object.setAttribute('alt', kanji);
   object.setAttribute('data', kanjivgDir + '/' + kanjiId + '.svg');
   object.setAttribute('data-id', kanjiId);
   object.setAttribute('data-pos', pos);
@@ -343,8 +334,8 @@ function loadProblem(wordYomi) {
   var tegaki = shadow.querySelector('#tegaki');
   word.split('').forEach((kanji, pos) => {
     var kanjiId = toKanjiId(kanji);
-    loadSVG(kanjiId, tehon, pos, false);
-    var object = loadSVG(kanjiId, tegaki, pos, true);
+    loadSVG(kanji, kanjiId, tehon, pos, false);
+    var object = loadSVG(kanji, kanjiId, tegaki, pos, true);
     var tegakiPad = setSignaturePad(object);
     objects.push(object);
     tegakiPads.push(tegakiPad);
