@@ -37,25 +37,27 @@
     </style>
   </head>
   <body>
-    <nav id="header" class="navbar navbar-expand navbar-light">
-      <div class="container">
-        <a class="navbar-brand" href="/touch-kanji/">
-          タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
-        </a>
-        <div class="navbar-nav">
-          <button onclick="toggleHint(this)" id="hint" type="button" class="btn btn-sm btn-secondary">HARD</button>
-          <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+    <header>
+      <nav class="navbar navbar-expand navbar-light">
+        <div class="container">
+          <a class="navbar-brand" href="/touch-kanji/">
+            タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
+          </a>
+          <div class="navbar-nav">
+            <button onclick="toggleHint(this)" id="hint" type="button" class="btn btn-sm btn-secondary">HARD</button>
+            <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+          </div>
         </div>
-      </div>
-    </nav>
-    <div id="container" class="container text-center">
+      </nav>
+    </header>
+    <main id="container" class="container text-center">
       <div id="problems"></div>
       <button onclick="report(this)" class="btn btn-secondary my-4">
         <span id="report">ぜんぶ 80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえた！</span>
         <span id="correctReport" class="d-none">クリア！ つぎに<ruby>進<rp>(</rp><rt>すす</rt><rp>)</rp></ruby>むよ！</span>
         <span id="incorrectReport" class="d-none">80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえてないよ！</span>
       </button>
-    </div>
+    </main>
     <footer class="pt-4 alert text-center">
       <div>SVG - <a href="https://github.com/KanjiVG/kanjivg">KanjiVG/kanjivg</a>
         / <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> by Ulrich Apel
@@ -107,9 +109,9 @@
         .d-none { display:none; }
       </style>
       <div class="container">
-        <object type="image/svg+xml" width="140" height="140"></object>
+        <object type="image/svg+xml" width="140" height="140" alt="手本の文字"></object>
         <a id="dict" target="_blank" rel="noopener noreferer">
-          <img src="/touch-kanji/svg/dict.svg" width="16" height="16">
+          <img src="/touch-kanji/svg/dict.svg" width="16" height="16" alt="辞書で調べる">
         </a>
       </div>
     </template>
@@ -130,9 +132,9 @@
         }
       </style>
       <div class="container">
-        <object type="image/svg+xml" width="140" height="140"></object>
+        <object type="image/svg+xml" width="140" height="140" alt="手書き文字"></object>
         <canvas width="140" height="140"></canvas>
-        <img src="/touch-kanji/svg/eraser.svg" id="eraser" width="16" height="16">
+        <img src="/touch-kanji/svg/eraser.svg" id="eraser" width="16" height="16" alt="文字を消す">
         <div id="score" class="d-none"></div>
       </div>
     </template>
