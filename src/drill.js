@@ -270,7 +270,7 @@ function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPa
       if (clearedKanjis) {
         var removed = false;
         scores.forEach((score, i) => {
-          if (0 < score && score < 40) {
+          if (score < 40) {
             clearedKanjis = clearedKanjis.replace(word[i], '');
             removed = true;
           }
