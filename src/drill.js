@@ -605,12 +605,12 @@ function initQuery(mode) {
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
 window.addEventListener("touchstart", function(e) {
-  if (e.target.tagName != 'PROBLEM-BOX') {
+  if (e.target.tagName != 'PROBLEM-BOX' && e.target.tagName != 'BUTTON') {
     e.preventDefault();
   }
 }, { passive:false });
 window.addEventListener("touchmove", function(e) {
-  if (e.target.tagName != 'PROBLEM-BOX') {
+  if (e.target.tagName != 'PROBLEM-BOX' && e.target.tagName != 'BUTTON') {
     e.preventDefault();
   }
 }, { passive:false });
