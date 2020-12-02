@@ -263,6 +263,9 @@ function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPa
           next.shadowRoot.querySelector('#guard').style.height = '0';
           var scroll = new SmoothScroll();
           scroll.animateScroll(next);
+        } else {
+          window.removeEventListener('touchstart', scrollEvent, { passive:false });
+          window.removeEventListener('touchmove', scrollEvent, { passive:false });
         }
       }
       // 点数があまりにも低いものは合格リストから除外
@@ -570,7 +573,7 @@ async function fetchJsons(grades) {
 
 let kanjis = '';
 function initQuery(mode) {
-  var num = 5;
+  var num = 0;
   var queries = parseQuery(location.search);
   kanjis = queries['kanji'] || '学';
   var targetKanjis = [];
@@ -605,14 +608,11 @@ function initQuery(mode) {
 // https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
-window.addEventListener("touchstart", function(e) {
+function scrollEvent(e) {
   if (e.target.tagName != 'PROBLEM-BOX' && e.target.tagName != 'BUTTON') {
     e.preventDefault();
   }
-}, { passive:false });
-window.addEventListener("touchmove", function(e) {
-  if (e.target.tagName != 'PROBLEM-BOX' && e.target.tagName != 'BUTTON') {
-    e.preventDefault();
-  }
-}, { passive:false });
+}
+window.addEventListener("touchstart", scrollEvent, { passive:false });
+window.addEventListener("touchmove", scrollEvent, { passive:false });
 
