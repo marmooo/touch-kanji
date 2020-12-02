@@ -17,7 +17,7 @@ function toKanjiId(str){var hex=str.codePointAt(0).toString(16);return('00000'+h
 function loadSVG(kanji,kanjiId,parentNode,pos,loadCanvas){var box;if(loadCanvas){box=document.createElement('tegaki-box');}else{box=document.createElement('tehon-box');}
 var object=box.shadowRoot.querySelector('object');object.setAttribute('alt',kanji);object.setAttribute('data',kanjivgDir+'/'+kanjiId+'.svg');object.setAttribute('data-id',kanjiId);object.setAttribute('data-pos',pos);if(loadCanvas){object.setAttribute('onload','initSVG(this)');}
 parentNode.appendChild(box);return object;}
-function showKanjiScore(kanjiScore,kakuScores,scoreObj,tehonKanji,object,kanjiId,kakusu){var kanjiScore=Math.round(kanjiScore);if(kanjiScore>=80){correctAudio.play();}else{incorrectAudio.play();}
+function showKanjiScore(kanjiScore,kakuScores,scoreObj,tehonKanji,object,kanjiId,kakusu){var kanjiScore=Math.floor(kanjiScore);if(kanjiScore>=80){correctAudio.play();}else{incorrectAudio.play();}
 scoreObj.classList.remove('d-none');scoreObj.innerText=kanjiScore;for(var i=0;i<kakusu;i++){changePathColor(i+1,tehonKanji,kanjiId,'black');}
 for(var i=0;i<kakusu;i++){if(!kakuScores[i][0]||kakuScores[i][0]<80){changePathColor(i+1,tehonKanji,kanjiId,'red');}}
 if(localStorage.getItem('hint')!=1){changeAllColor(object,kanjiId,'lightgray');}}
@@ -46,7 +46,7 @@ function getInclusionCount(tegakiImgData,tehonImgData){for(var i=3;i<tegakiImgDa
 var inclusionCount=countNoTransparent(tegakiImgData);return inclusionCount;}
 function calcKakuScore(tegakiCount,tehonCount,inclusionCount){var lineScore=(1-Math.abs((tehonCount-tegakiCount)/tehonCount));if(lineScore>1){lineScore=1;}
 var inclusionScore=(tegakiCount-inclusionCount)/tegakiCount;if(inclusionScore>1){inclusionScore=1;}
-var kakuScore=lineScore*inclusionScore*100;if(kakuScore<0){kakuScore=0;}
+var kakuScore=lineScore*inclusionScore*100*1.05;if(kakuScore<0){kakuScore=0;}
 if(kakuScore>100){kakuScore=100;}
 if(isNaN(kakuScore)){kakuScore=0;}
 return kakuScore;}

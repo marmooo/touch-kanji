@@ -177,7 +177,7 @@ function loadSVG(kanji, kanjiId, parentNode, pos, loadCanvas) {
 }
 
 function showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu) {
-  var kanjiScore = Math.round(kanjiScore);
+  var kanjiScore = Math.floor(kanjiScore);
   if (kanjiScore >= 80) {
     correctAudio.play();
   } else {
@@ -425,7 +425,8 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
   // 包含率を優遇し過ぎると ["一","つ"], ["二","＝"] の見分けができなくなる
   var inclusionScore = (tegakiCount - inclusionCount) / tegakiCount;
   if (inclusionScore > 1) { inclusionScore = 1; }
-  var kakuScore = lineScore * inclusionScore * 100;
+  // 100点が取れないので少しだけ採点を甘くする
+  var kakuScore = lineScore * inclusionScore * 100 * 1.05;
   if (kakuScore <   0) { kakuScore =   0; }
   if (kakuScore > 100) { kakuScore = 100; }
   if (isNaN(kakuScore)) { kakuScore = 0; }
