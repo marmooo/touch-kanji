@@ -573,7 +573,7 @@ async function fetchJsons(grades) {
 
 let kanjis = '';
 function initQuery(mode) {
-  var num = 0;
+  var num = 5;
   var queries = parseQuery(location.search);
   kanjis = queries['kanji'] || '学';
   var targetKanjis = [];
