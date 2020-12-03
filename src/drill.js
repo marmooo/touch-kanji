@@ -429,7 +429,7 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
   var inclusionScore = (tegakiCount - inclusionCount) / tegakiCount;
   if (inclusionScore > 1) { inclusionScore = 1; }
   // 100点が取れないので少しだけ採点を甘くする
-  var kakuScore = lineScore * inclusionScore * 100 * 1.05;
+  var kakuScore = lineScore * inclusionScore * 100 * 1.20;
   if (kakuScore <   0) { kakuScore =   0; }
   if (kakuScore > 100) { kakuScore = 100; }
   if (isNaN(kakuScore)) { kakuScore = 0; }
@@ -437,8 +437,7 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
 }
 
 function getKakuScores(tegakiData, object, kanjiId, kakusu) {
-  var strokeWidth = setStrokeWidth(kakusu);
-  var markerWidth = strokeWidth * 0.7;  // TODO: strokeWidth に合わせる (正確な数値は不明)
+  var markerWidth = setStrokeWidth(kakusu) * 109 / canvasSize;  // 109 = original svg width/height
   var promises = new Array(kakusu);
   for (var i=0; i<kakusu; i++) {
     promises[i] = new Promise((resolve, reject) => {
