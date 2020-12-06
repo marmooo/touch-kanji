@@ -117,7 +117,7 @@ function deleteData() {
 
 function generateDrill() {
   var words = document.getElementById('search').value;
-  if (words && words.split('').any(word => w9.includes(word))) {
+  if (words && words.split('').some(word => w9.includes(word))) {
     location.href = `/touch-kanji/drill/?kanji=${words}`;
   }
 }
@@ -150,7 +150,7 @@ setCleared(problems);
 document.getElementById('search').addEventListener('keydown', function(event) {
   if (event.key == 'Enter') {
     var words = this.value;
-    if (words && words.split('').any(word => w9.includes(word))) {
+    if (words && words.split('').some(word => w9.includes(word))) {
       location.href = `/touch-kanji/drill/?kanji=${words}`;
     }
   }

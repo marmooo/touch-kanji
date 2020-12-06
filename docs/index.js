@@ -11,8 +11,8 @@ return array;}
 function testRemained(){var problems=document.getElementById('problems').children;var kanjis=[...problems].filter(e=>e.classList.contains('btn-outline-secondary')).map(e=>e.innerText);var target=shuffle(kanjis).slice(0,9).join('');location.href=`/touch-kanji/drill/?kanji=${target}`;}
 function testCleared(){var problems=document.getElementById('problems').children;var kanjis=[...problems].filter(e=>e.classList.contains('btn-secondary')).map(e=>e.innerText);var target=shuffle(kanjis).slice(0,9).join('');location.href=`/touch-kanji/drill/?kanji=${target}`;}
 function deleteData(){localStorage.removeItem('touch-kanji');location.reload();}
-function generateDrill(){var words=document.getElementById('search').value;if(words&&words.split('').any(word=>w9.includes(word))){location.href=`/touch-kanji/drill/?kanji=${words}`;}}
+function generateDrill(){var words=document.getElementById('search').value;if(words&&words.split('').some(word=>w9.includes(word))){location.href=`/touch-kanji/drill/?kanji=${words}`;}}
 function setLinkTemplate(){var a=document.createElement('a');a.className='mr-1 mb-1 btn btn-outline-secondary btn-sm';return a;}
 const linkTemplate=setLinkTemplate();function setProblems(obj){while(obj.lastElementChild){obj.removeChild(obj.lastChild);}
 for(var i=0;i<gradeByKanjis[grade].length;i++){var kanji=gradeByKanjis[grade][i];var a=linkTemplate.cloneNode();a.href=`/touch-kanji/drill/?kanji=${kanji}`;a.innerText=kanji;obj.appendChild(a);}}
-var problems=document.getElementById('problems');setProblems(problems);setCleared(problems);document.getElementById('search').addEventListener('keydown',function(event){if(event.key=='Enter'){var words=this.value;if(words&&words.split('').any(word=>w9.includes(word))){location.href=`/touch-kanji/drill/?kanji=${words}`;}}},false);
+var problems=document.getElementById('problems');setProblems(problems);setCleared(problems);document.getElementById('search').addEventListener('keydown',function(event){if(event.key=='Enter'){var words=this.value;if(words&&words.split('').some(word=>w9.includes(word))){location.href=`/touch-kanji/drill/?kanji=${words}`;}}},false);
