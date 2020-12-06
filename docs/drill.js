@@ -65,7 +65,7 @@ function uniq(array){return array.filter((elem,index,self)=>self.indexOf(elem)==
 function fetchJson(grade){return new Promise((resolve,reject)=>{fetch(`/touch-kanji/data/${grade}.json`).then(response=>response.json()).then(data=>resolve(data));});}
 async function fetchJsons(grades){var data=new Array(10);for(var i=0;i<grades.length;i++){await fetchJson(grades[i]).then(res=>{data[grades[i]]=res;});}
 return data;}
-let kanjis='';function initQuery(mode){var num=5;var queries=parseQuery(location.search);kanjis=queries['kanji']||'学';var targetKanjis=[];var targetGrades=[];var grades=new Array(10);for(var i=0;i<kanjis.length;i++){var g=getGrade(kanjis[i]);if(g>0){targetKanjis.push(kanjis[i]);targetGrades.push(g);grades[g]=true;}}
+let kanjis='';function initQuery(mode){var num=5;var queries=parseQuery(location.search);kanjis=queries['q']||'学';var targetKanjis=[];var targetGrades=[];var grades=new Array(10);for(var i=0;i<kanjis.length;i++){var g=getGrade(kanjis[i]);if(g>0){targetKanjis.push(kanjis[i]);targetGrades.push(g);grades[g]=true;}}
 fetchJsons(uniq(targetGrades)).then(data=>{if(targetKanjis.length==1){var kanji=targetKanjis[0];var grade=targetGrades[0];var problems=[data[grade][kanji].shift()];problems=problems.concat(shuffle(data[grade][kanji]).slice(0,num));}else{var problems=[];targetKanjis.forEach((kanji,i)=>{var grade=targetGrades[i];var candidates=data[grade][kanji].slice(1);problems=problems.concat(shuffle(candidates)[0]);});}
 loadDrill(problems);document.getElementById('problems').children[0].shadowRoot.querySelector('#guard').style.height='0';});}
 function scrollEvent(e){if(e.target.tagName!='PROBLEM-BOX'&&e.target.tagName!='BUTTON'){e.preventDefault();}}

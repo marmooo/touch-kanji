@@ -98,7 +98,7 @@ function testRemained() {
     .filter(e => e.classList.contains('btn-outline-secondary'))
     .map(e => e.innerText);
   var target = shuffle(kanjis).slice(0, 9).join('');
-  location.href = `/touch-kanji/drill/?kanji=${target}`;
+  location.href = `/touch-kanji/drill/?q=${target}`;
 }
 
 function testCleared() {
@@ -107,7 +107,7 @@ function testCleared() {
     .filter(e => e.classList.contains('btn-secondary'))
     .map(e => e.innerText);
   var target = shuffle(kanjis).slice(0, 9).join('');
-  location.href = `/touch-kanji/drill/?kanji=${target}`;
+  location.href = `/touch-kanji/drill/?q=${target}`;
 }
 
 function deleteData() {
@@ -118,7 +118,7 @@ function deleteData() {
 function generateDrill() {
   var words = document.getElementById('search').value;
   if (words && words.split('').some(word => w9.includes(word))) {
-    location.href = `/touch-kanji/drill/?kanji=${words}`;
+    location.href = `/touch-kanji/drill/?q=${words}`;
   }
 }
 
@@ -136,7 +136,7 @@ function setProblems(obj) {
   for (var i=0; i<gradeByKanjis[grade].length; i++) {
     var kanji = gradeByKanjis[grade][i];
     var a = linkTemplate.cloneNode();
-    a.href = `/touch-kanji/drill/?kanji=${kanji}`;
+    a.href = `/touch-kanji/drill/?q=${kanji}`;
     a.innerText = kanji;
     obj.appendChild(a);
   }
@@ -151,7 +151,7 @@ document.getElementById('search').addEventListener('keydown', function(event) {
   if (event.key == 'Enter') {
     var words = this.value;
     if (words && words.split('').some(word => w9.includes(word))) {
-      location.href = `/touch-kanji/drill/?kanji=${words}`;
+      location.href = `/touch-kanji/drill/?q=${words}`;
     }
   }
 }, false);

@@ -574,7 +574,7 @@ let kanjis = '';
 function initQuery(mode) {
   var num = 5;
   var queries = parseQuery(location.search);
-  kanjis = queries['kanji'] || '学';
+  kanjis = queries['q'] || '学';
   var targetKanjis = [];
   var targetGrades = [];
   var grades = new Array(10);
