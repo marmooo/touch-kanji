@@ -261,7 +261,7 @@ function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPa
   scoring.addEventListener('click', function() {
     if (once) {
       unlockAudio();
-      once = fase;
+      once = false;
     }
     getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(scores => {
       if (scores.every(score => score >= 80)) {
