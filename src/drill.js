@@ -616,7 +616,7 @@ function initQuery(mode) {
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
 function scrollEvent(e) {
-  if (e.target.tagName != 'PROBLEM-BOX' && e.target.tagName != 'BUTTON') {
+  if (!['MAIN', 'PLOBLEM-BOX', 'A', 'BUTTON'].includes(e.target.tagName)) {
     e.preventDefault();
   }
 }
