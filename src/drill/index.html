@@ -79,7 +79,9 @@
         #problem { width:320px; height:100%; text-align:center; padding:10px; position:relative; }
         .words { display:inline-block; position:relative; }
         object { display:block; border:solid 1px silver; touch-action:none; }
-        #guard { touch-action:none; position:absolute; top:0; left:0; background-color:rgba(0, 0, 0, .25); width:100%; height:100%; }
+        @media only screen {
+          #guard { touch-action:none; position:absolute; top:0; left:0; background-color:rgba(0, 0, 0, .25); width:100%; height:100%; }
+        }
       </style>
       <div id="problem">
         <div id="info"></div>
