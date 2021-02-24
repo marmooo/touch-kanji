@@ -433,7 +433,8 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
   var inclusionScore = (tegakiCount - inclusionCount) / tegakiCount;
   if (inclusionScore > 1) { inclusionScore = 1; }
   // 100点が取れないので少しだけ採点を甘くする
-  var kakuScore = lineScore * inclusionScore * 100 * 1.20;
+  // 0.7x0.7x2=1 なので 70点くらいの綺麗さのものが 係数 2 で 100点になる
+  var kakuScore = lineScore * inclusionScore * 100 * 2.0;
   if (kakuScore <   0) { kakuScore =   0; }
   if (kakuScore > 100) { kakuScore = 100; }
   if (isNaN(kakuScore)) { kakuScore = 0; }
