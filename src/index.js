@@ -124,7 +124,7 @@ function generateDrill() {
 
 function setLinkTemplate() {
   var a = document.createElement('a');
-  a.className = 'mr-1 mb-1 btn btn-outline-secondary btn-sm';
+  a.className = 'me-1 mb-1 btn btn-outline-secondary btn-sm';
   return a;
 }
 const linkTemplate = setLinkTemplate();
