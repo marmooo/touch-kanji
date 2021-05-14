@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-02-24 20:50';
+var CACHE_NAME = '2021-05-14 10:10';
 var urlsToCache = [
   '/touch-kanji/',
   '/touch-kanji/index.js',
@@ -10,7 +10,7 @@ var urlsToCache = [
   '/touch-kanji/mp3/correct3.mp3',
   '/touch-kanji/mp3/incorrect1.mp3',
   '/touch-kanji/mp3/stupid5.mp3',
-  'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css',
+  'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css',
 ];
 
 self.addEventListener('install', function(event) {

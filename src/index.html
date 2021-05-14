@@ -29,7 +29,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="msapplication-config" content="/touch-kanji/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <style>
       .card-header.ruby { padding: 1rem 1.25rem .5rem 1.25rem }
       html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg); }
@@ -44,7 +44,7 @@
             タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
           </a>
           <div class="navbar-nav">
-            <select onchange="changeGrade(this)" id="gradeOption" class="ml-1 form-control form-control-sm">
+            <select onchange="changeGrade(this)" id="gradeOption" class="form-select form-select-sm" aria-label="学年">
               <option>小1</option>
               <option>小2</option>
               <option>小3</option>
@@ -54,7 +54,7 @@
               <option>中1/2</option>
               <option>中3</option>
             </select>
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
       </nav>
