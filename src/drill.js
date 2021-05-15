@@ -265,8 +265,8 @@ function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPa
         var next = problemBox.nextElementSibling;
         if (next) {
           next.shadowRoot.querySelector('#guard').style.height = '0';
-          var scroll = new SmoothScroll();
-          scroll.animateScroll(next);
+          const top = next.getBoundingClientRect().top + document.documentElement.scrollTop
+          window.scrollTo({ top:top, behavior:'smooth' });
         } else {
           window.removeEventListener('touchstart', scrollEvent, { passive:false });
           window.removeEventListener('touchmove', scrollEvent, { passive:false });
