@@ -232,33 +232,24 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
   return Promise.all(promises);
 }
 
-function unlockAudio() {
-  correctAllAudio.volume = 0;
-  correctAudio.volume = 0;
-  incorrectAudio.volume = 0;
-  stupidAudio.volume = 0;
-  correctAllAudio.play();
-  correctAudio.play();
-  incorrectAudio.play();
-  stupidAudio.play();
-  correctAllAudio.pause();
-  correctAudio.pause();
-  incorrectAudio.pause();
-  stupidAudio.pause();
-  correctAllAudio.currentTime = 0;
-  correctAudio.currentTime = 0;
-  incorrectAudio.currentTime = 0;
-  stupidAudio.currentTime = 0;
-  correctAllAudio.volume = 1;
-  correctAudio.volume = 1;
-  incorrectAudio.volume = 1;
-  stupidAudio.volume = 1;
+function unlockAudio(audio) {
+  audio.volume = 0;
+  audio.play();
+  audio.pause();
+  audio.currentTime = 0;
+  audio.volume = 1;
+}
+
+function unlockAudios() {
+  unlockAudio(correctAllAudio);
+  unlockAudio(correctAudio);
+  unlockAudio(incorrectAudio);
+  unlockAudio(stupidAudio);
 }
 
 function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPads, word) {
   var scoring = problemBox.shadowRoot.querySelector('#scoring');
   scoring.addEventListener('click', function() {
-    unlockAudio();
     getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(scores => {
       if (scores.every(score => score >= 80)) {
         problemBox.shadowRoot.querySelector('#guard').style.height = '100%';
@@ -617,4 +608,5 @@ function scrollEvent(e) {
 }
 window.addEventListener("touchstart", scrollEvent, { passive:false });
 window.addEventListener("touchmove", scrollEvent, { passive:false });
+document.addEventListener("touchstart", unlockAudios, { once:true });
 
