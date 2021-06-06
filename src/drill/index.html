@@ -109,6 +109,10 @@
           position:absolute; top:1px; left:1px; background-color:white; cursor:pointer;
           -webkit-touch-callout:none; touch-action:none;
         }
+        #eraser {
+          position:absolute; top:1px; right:1px; background-color:white; cursor:pointer;
+          -webkit-touch-callout:none; touch-action:none;
+        }
         .d-none { display:none; }
       </style>
       <div class="container">
@@ -116,6 +120,7 @@
         <a id="dict" target="_blank" rel="noopener noreferer">
           <img src="/touch-kanji/svg/dict.svg" width="16" height="16" alt="辞書で調べる">
         </a>
+        <img src="/touch-kanji/svg/eraser.svg" id="eraser" width="16" height="16" alt="文字を消す">
       </div>
     </template>
     <template id="tegaki-box">
@@ -124,10 +129,6 @@
         object { display:block; border:solid 1px silver; }
         canvas { position:absolute; top:0px; left:0px; }
         .d-none { display:none; }
-        #eraser {
-          position:absolute; top:1px; right:1px; background-color:white; cursor:pointer;
-          -webkit-touch-callout:none; touch-action:none;
-        }
         #score {
           position:absolute; top:1px; left:1px;
           width:32px; height:32px; font-size:16px; line-height:32px;
@@ -137,7 +138,6 @@
       <div class="container">
         <object type="image/svg+xml" width="140" height="140" alt="手書き文字"></object>
         <canvas width="140" height="140"></canvas>
-        <img src="/touch-kanji/svg/eraser.svg" id="eraser" width="16" height="16" alt="文字を消す">
         <div id="score" class="d-none"></div>
       </div>
     </template>
