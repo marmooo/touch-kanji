@@ -79,6 +79,22 @@ function toggleHint(obj) {
   toggleAllStroke();
 }
 
+function toggleScroll() {
+  const scrollable = document.getElementById('scrollable');
+  const pinned = document.getElementById('pinned');
+  if (scrollable.classList.contains('d-none')) {
+    window.removeEventListener("touchstart", scrollEvent, { passive:false });
+    window.removeEventListener("touchmove", scrollEvent, { passive:false });
+    scrollable.classList.remove('d-none');
+    pinned.classList.add('d-none');
+  } else {
+    window.addEventListener("touchstart", scrollEvent, { passive:false });
+    window.addEventListener("touchmove", scrollEvent, { passive:false });
+    scrollable.classList.add('d-none');
+    pinned.classList.remove('d-none');
+  }
+}
+
 customElements.define('problem-box', class extends HTMLElement {
   constructor() {
     super();
@@ -604,11 +620,9 @@ function initQuery(mode) {
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
 function scrollEvent(e) {
-  if (!['MAIN', 'PROBLEM-BOX', 'A', 'BUTTON'].includes(e.target.tagName)) {
+  if (!['MAIN', 'PROBLEM-BOX', 'A', 'BUTTON', 'path'].includes(e.target.tagName)) {
     e.preventDefault();
   }
 }
-window.addEventListener("touchstart", scrollEvent, { passive:false });
-window.addEventListener("touchmove", scrollEvent, { passive:false });
 document.addEventListener("touchstart", unlockAudios, { once:true });
 
