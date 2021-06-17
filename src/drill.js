@@ -12,12 +12,13 @@ const w8_ = Array.from('哀慰詠悦閲炎宴欧殴乙卸穏架佳華嫁餓怪�
 const w9_ = Array.from('亜尉逸姻韻畝浦疫謁猿凹翁虞渦禍靴寡稼蚊拐懐劾涯垣核殻嚇潟括喝渇褐轄且缶陥患堪棺款閑寛憾還艦頑飢宜偽擬糾窮拒享挟恭矯暁菌琴謹襟吟隅勲薫茎渓蛍慶傑嫌献謙繭顕懸弦呉碁江肯侯洪貢溝衡購拷剛酷昆懇佐唆詐砕宰栽斎崎索酢桟傘肢嗣賜滋璽漆遮蛇酌爵珠儒囚臭愁酬醜汁充渋銃叔淑粛塾俊准殉循庶緒叙升抄肖尚宵症祥渉訟硝粧詔奨彰償礁浄剰縄壌醸津唇娠紳診刃迅甚帥睡枢崇据杉斉逝誓析拙窃仙栓旋践遷薦繊禅漸租疎塑壮荘捜挿曹喪槽霜藻妥堕惰駄泰濯但棚痴逐秩嫡衷弔挑眺釣懲勅朕塚漬坪呈廷邸亭貞逓偵艇泥迭徹撤悼搭棟筒謄騰洞督凸屯軟尼妊忍寧把覇廃培媒賠伯舶漠肌鉢閥煩頒妃披扉罷猫賓頻瓶扶附譜侮沸雰憤丙併塀幣弊偏遍泡俸褒剖紡朴僕撲堀奔麻摩磨抹岬銘妄盲耗厄愉諭癒唯悠猶裕融庸窯羅酪痢履柳竜硫虜涼僚寮倫累塁戻鈴賄枠挨曖宛嵐畏萎椅彙茨咽淫唄鬱怨媛艶旺岡臆俺苛牙瓦楷潰諧崖蓋骸柿顎葛釜鎌韓玩伎亀毀畿臼嗅巾僅錦惧串窟熊詣憬稽隙桁拳鍵舷股虎錮勾梗喉乞傲駒頃痕沙挫采塞埼柵刹拶斬恣摯餌鹿叱嫉腫呪袖羞蹴憧拭尻芯腎須裾凄醒脊戚煎羨腺詮箋膳狙遡曽爽痩踪捉遜汰唾堆戴誰旦綻緻酎貼嘲捗椎爪鶴諦溺填妬賭藤瞳栃頓貪丼那奈梨謎鍋匂虹捻罵剥箸氾汎阪斑眉膝肘阜訃蔽餅璧蔑哺蜂貌頬睦勃昧枕蜜冥麺冶弥闇喩湧妖瘍沃拉辣藍璃慄侶瞭瑠呂賂弄籠麓脇');
 const gradeByKanjis = [w1_, w1_, w2_, w3_, w4_, w5_, w6_, w7_, w8_, w9_];
 const dirNames = ['小1', '小1', '小2', '小3', '小4', '小5', '小6', '中2', '中3', '常用', '常用外'];
-const correctAllAudio = new Audio('/touch-kanji/mp3/correct1.mp3');
-const correctAudio = new Audio('/touch-kanji/mp3/correct3.mp3');
-const incorrectAudio = new Audio('/touch-kanji/mp3/incorrect1.mp3');
-const stupidAudio = new Audio('/touch-kanji/mp3/stupid5.mp3');
 const kanjivgDir = '/kanjivg'
 let canvasSize = 140;
+let correctAudio, incorrectAudio, correctAllAudio, stupidAudio;
+loadAudios();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = new AudioContext();
+
 
 function toKanji(kanjiId) {
   return String.fromCodePoint(parseInt('0x' + kanjiId));
@@ -93,6 +94,54 @@ function toggleScroll() {
     scrollable.classList.add('d-none');
     pinned.classList.remove('d-none');
   }
+}
+
+function playAudio(audioBuffer, volume) {
+  const audioSource = audioContext.createBufferSource();
+  audioSource.buffer = audioBuffer;
+  if (volume) {
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = volume;
+    gainNode.connect(audioContext.destination);
+    audioSource.connect(gainNode);
+    audioSource.start();
+  } else {
+    audioSource.connect(audioContext.destination);
+    audioSource.start();
+  }
+}
+
+function unlockAudio() {
+  audioContext.resume();
+}
+
+function loadAudio(url) {
+  return fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => {
+      return new Promise((resolve, reject) => {
+        audioContext.decodeAudioData(arrayBuffer, (audioBuffer) => {
+          resolve(audioBuffer);
+        }, (err) => {
+          reject(err);
+        });
+      });
+    });
+}
+
+function loadAudios() {
+  promises = [
+    loadAudio('/touch-kanji/mp3/correct3.mp3'),
+    loadAudio('/touch-kanji/mp3/incorrect1.mp3'),
+    loadAudio('/touch-kanji/mp3/correct1.mp3'),
+    loadAudio('/touch-kanji/mp3/stupid5.mp3'),
+  ];
+  Promise.all(promises).then(audioBuffers => {
+    correctAudio = audioBuffers[0];
+    incorrectAudio = audioBuffers[1];
+    correctAllAudio = audioBuffers[2];
+    stupidAudio = audioBuffers[3];
+  });
 }
 
 customElements.define('problem-box', class extends HTMLElement {
@@ -195,9 +244,9 @@ function loadSVG(kanji, kanjiId, parentNode, pos, loadCanvas) {
 function showKanjiScore(kanjiScore, kakuScores, scoreObj, tehonKanji, object, kanjiId, kakusu) {
   var kanjiScore = Math.floor(kanjiScore);
   if (kanjiScore >= 80) {
-    correctAudio.play();
+    playAudio(correctAudio);
   } else {
-    incorrectAudio.play();
+    playAudio(incorrectAudio);
   }
   scoreObj.classList.remove('d-none');
   scoreObj.innerText = kanjiScore;
@@ -246,21 +295,6 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
     promises[i] = kanjiScores;
   });
   return Promise.all(promises);
-}
-
-function unlockAudio(audio) {
-  audio.volume = 0;
-  audio.play();
-  audio.pause();
-  audio.currentTime = 0;
-  audio.volume = 1;
-}
-
-function unlockAudios() {
-  unlockAudio(correctAllAudio);
-  unlockAudio(correctAudio);
-  unlockAudio(incorrectAudio);
-  unlockAudio(stupidAudio);
 }
 
 function setScoringButton(problemBox, tegakiPanel, tehonPanel, objects, tegakiPads, word) {
@@ -512,7 +546,7 @@ function report(obj) {
   }
   score /= scores.length;
   if (score >= 80) {
-    correctAllAudio.play();
+    playAudio(correctAllAudio);
     var clearedKanjis = localStorage.getItem('touch-kanji');
     if (clearedKanjis) {
       kanjis.split('').forEach(kanji => {
@@ -530,7 +564,7 @@ function report(obj) {
       location.href = '/touch-kanji/';
     }, 3000);
   } else {
-    stupidAudio.play();
+    playAudio(stupidAudio);
     document.getElementById('report').classList.add('d-none');
     document.getElementById('incorrectReport').classList.remove('d-none');
     setTimeout(function() {
@@ -624,5 +658,5 @@ function scrollEvent(e) {
     e.preventDefault();
   }
 }
-document.addEventListener("touchstart", unlockAudios, { once:true });
+document.addEventListener('click', unlockAudio, { once:true, useCapture:true });
 
