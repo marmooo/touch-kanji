@@ -46,7 +46,7 @@
             タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
           </a>
           <div class="navbar-nav">
-            <button onclick="toggleScroll()" title="スクロール切替" class="btn p-0">
+            <button id="toggleScroll" title="スクロール切替" class="btn p-0">
               <svg id="scrollable" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"/>
               </svg>
@@ -54,15 +54,15 @@
                 <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354z"/>
               </svg>
             </button>
-            <button onclick="toggleHint(this)" id="hint" type="button" class="btn btn-sm btn-secondary ms-1">HARD</button>
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0 ms-1">🌓</button>
+            <button id="hint" type="button" class="btn btn-sm btn-secondary ms-1">HARD</button>
+            <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
       </nav>
     </header>
     <main id="container" class="container text-center">
       <div id="problems"></div>
-      <button onclick="report(this)" class="btn btn-secondary my-4">
+      <button id="reportButton" class="btn btn-secondary my-4">
         <span id="report">ぜんぶ 80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえた！</span>
         <span id="correctReport" class="d-none">クリア！ つぎに<ruby>進<rp>(</rp><rt>すす</rt><rp>)</rp></ruby>むよ！</span>
         <span id="incorrectReport" class="d-none">80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえてないよ！</span>
@@ -152,10 +152,7 @@
         <div id="score" class="d-none"></div>
       </div>
     </template>
-    <script src="/touch-kanji/drill.js"></script>
     <script src="/touch-kanji/signature_pad.umd.min.js"></script>
-    <script>
-      initQuery('train');
-    </script>
+    <script src="/touch-kanji/drill.js"></script>
   </body>
 </html>

@@ -35,6 +35,7 @@
       html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg); }
       @-moz-document url-prefix() { html[data-theme="dark"] { background-color:black; } }
     </style>
+    <script data-ad-client="ca-pub-6459713332128733" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   </head>
   <body>
     <header>
@@ -45,7 +46,7 @@
             タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
           </a>
           <div class="navbar-nav">
-            <select onchange="changeGrade(this)" id="gradeOption" class="form-select form-select-sm" aria-label="学年">
+            <select id="gradeOption" class="form-select form-select-sm" aria-label="学年">
               <option>小1</option>
               <option>小2</option>
               <option>小3</option>
@@ -55,7 +56,7 @@
               <option>中1/2</option>
               <option>中3</option>
             </select>
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0 ms-1">🌓</button>
+            <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
       </nav>
@@ -78,15 +79,15 @@
             <div class="col-md pt-4">
               <p>シャッフルテストもできます。</p>
               <div class="text-center">
-                <button onclick="testRemained()" class="m-1 btn btn-primary" title="未クリアをテスト"><ruby>未<rp>(</rp><rt>み</rt><rp>)</rp></ruby>クリアをテスト</button>
-                <button onclick="testCleared()" class="m-1 btn btn-primary" title="クリア済をテスト">クリア<ruby>済<rp>(</rp><rt>ずみ</rt><rp>)</rp></ruby>をテスト</button>
+                <button id="testRemained" class="m-1 btn btn-primary" title="未クリアをテスト"><ruby>未<rp>(</rp><rt>み</rt><rp>)</rp></ruby>クリアをテスト</button>
+                <button id="testCleared" class="m-1 btn btn-primary" title="クリア済をテスト">クリア<ruby>済<rp>(</rp><rt>ずみ</rt><rp>)</rp></ruby>をテスト</button>
               </div>
             </div>
             <div class="col-md pt-4">
               <p><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ドリルが<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>れます。</p>
               <div class="d-flex justify-content-center">
                 <input id="search" class="form-control w-50" type="text" placeholder="学, 校, 左右, etc." aria-label="生成">
-                <button onclick="generateDrill()" class="btn" title="生成">
+                <button id="generateDrill" class="btn" title="生成">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
                     <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
@@ -96,7 +97,7 @@
             </div>
           </div>
           <div class="pt-4 text-right">
-            <button onclick="deleteData()" class="btn" title="データ消去">
+            <button id="deleteData" class="btn" title="データ消去">
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
               <small>データ<ruby>消去<rp>(</rp><rt>しょうきょ</rt><rp>)</rp></ruby></small>
             </button>
