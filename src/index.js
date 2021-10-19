@@ -75,7 +75,7 @@ function setCleared() {
   if (clearedKanjis) {
     const problems = document.getElementById("problems").children;
     for (let i = 0; i < problems.length; i++) {
-      if (clearedKanjis.includes(problems[i].innerText)) {
+      if (clearedKanjis.includes(problems[i].textContent)) {
         problems[i].classList.remove("btn-outline-secondary");
         problems[i].classList.add("btn-secondary");
       }
@@ -95,7 +95,7 @@ function testRemained() {
   const problems = document.getElementById("problems").children;
   const kanjis = [...problems]
     .filter((e) => e.classList.contains("btn-outline-secondary"))
-    .map((e) => e.innerText);
+    .map((e) => e.textContent);
   const target = shuffle(kanjis).slice(0, 9).join("");
   location.href = `/touch-kanji/drill/?q=${target}`;
 }
@@ -104,7 +104,7 @@ function testCleared() {
   const problems = document.getElementById("problems").children;
   const kanjis = [...problems]
     .filter((e) => e.classList.contains("btn-secondary"))
-    .map((e) => e.innerText);
+    .map((e) => e.textContent);
   const target = shuffle(kanjis).slice(0, 9).join("");
   location.href = `/touch-kanji/drill/?q=${target}`;
 }
@@ -137,7 +137,7 @@ function setProblems() {
     const kanji = gradeByKanjis[grade][i];
     const a = linkTemplate.cloneNode();
     a.href = `/touch-kanji/drill/?q=${kanji}`;
-    a.innerText = kanji;
+    a.textContent = kanji;
     problems.appendChild(a);
   }
 }
