@@ -570,7 +570,7 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
   if (inclusionScore > 1) inclusionScore = 1;
   // 100点が取れないので少しだけ採点を甘くする
   // 0.7x0.7x2=1 なので 70点くらいの綺麗さのものが 係数 2 で 100点になる
-  let kakuScore = lineScore * inclusionScore * 100 * 3.0;
+  let kakuScore = lineScore * inclusionScore * 100 * 2.5;
   if (kakuScore < 0) kakuScore = 0;
   if (kakuScore > 100) kakuScore = 100;
   if (isNaN(kakuScore)) kakuScore = 0;
@@ -583,6 +583,8 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
   for (let i = 0; i < kakusu; i++) {
     promises[i] = new Promise((resolve) => {
       if (tegakiData[i]) {
+        tegakiData[i].minWidth = markerWidth;
+        tegakiData[i].maxWidth = markerWidth;
         const markerCanvas = document.createElement("canvas");
         markerCanvas.setAttribute("width", canvasSize);
         markerCanvas.setAttribute("height", canvasSize);
