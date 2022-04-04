@@ -1,4 +1,4 @@
-var CACHE_NAME = '2022-04-03 15:40';
+var CACHE_NAME = '2022-04-05 00:14';
 var urlsToCache = [
   "/touch-kanji/",
   "/touch-kanji/index.js",
@@ -11,7 +11,7 @@ var urlsToCache = [
   "/touch-kanji/mp3/incorrect1.mp3",
   "/touch-kanji/mp3/stupid5.mp3",
   "/touch-kanji/favicon/original.svg",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.3/dist/signature_pad.umd.min.js",
+  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.4/dist/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
 ];
 
