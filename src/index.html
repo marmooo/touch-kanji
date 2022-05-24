@@ -49,14 +49,14 @@
             タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
           </a>
           <div class="navbar-nav">
-            <select id="levelOption" class="form-select form-select-sm w-auto" aria-label="採点">
+            <select title="採点" id="levelOption" class="form-select form-select-sm w-auto">
               <option>かんたん</option>
               <option>まあまあ</option>
               <option selected>ふつう</option>
               <option>きれい</option>
               <option>むずかしい</option>
             </select>
-            <select id="gradeOption" class="form-select form-select-sm ms-1" aria-label="学年">
+            <select title="学年" id="gradeOption" class="form-select form-select-sm ms-1">
               <option>小1</option>
               <option>小2</option>
               <option>小3</option>
@@ -96,8 +96,8 @@
             <div class="col-md pt-4">
               <p><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ドリルが<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>れます。</p>
               <div class="d-flex justify-content-center">
-                <input id="search" class="form-control w-50" type="text" placeholder="学, 校, 左右, etc." aria-label="生成">
-                <button id="generateDrill" class="btn" title="生成">
+                <input title="ドリルの漢字" id="search" class="form-control w-50" type="text" placeholder="学, 校, 左右, etc.">
+                <button title="ドリルを作成" id="generateDrill" class="btn">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
                     <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
