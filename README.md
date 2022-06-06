@@ -4,12 +4,12 @@
 
 ## Installation
 
-1. install [KanjiVG/kanjivg](https://github.com/KanjiVG/kanjivg) licensed under
-   the [CC BY-SA 3.0](https://creativecommons.org/licenses/by/3.0/)
-2. install
-   [marmooo/graded-kanji-examples](https://github.com/marmooo/graded-kanji-examples)
-   licensed under the
-   [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/)
+- install [KanjiVG/kanjivg](https://github.com/KanjiVG/kanjivg) licensed under
+  the [CC BY-SA 3.0](https://creativecommons.org/licenses/by/3.0/)
+- install
+  [marmooo/graded-kanji-examples](https://github.com/marmooo/graded-kanji-examples)
+  licensed under the
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ## Build
 
