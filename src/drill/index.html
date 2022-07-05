@@ -46,7 +46,7 @@
         <div class="container flex-wrap">
           <a class="navbar-brand" href="/touch-kanji/">
             <img src="/touch-kanji/favicon/favicon.svg" width="32" height="32">
-            タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
+            タッチ漢字ドリル
           </a>
           <div class="navbar-nav">
             <button id="toggleScroll" title="スクロール切替" class="btn p-0">
@@ -57,7 +57,7 @@
                 <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354z"/>
               </svg>
             </button>
-            <button id="hint" type="button" class="btn btn-sm btn-secondary ms-1">HARD</button>
+            <button id="hint" type="button" class="btn btn-sm btn-secondary ms-1 notranslate">HARD</button>
             <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
@@ -69,9 +69,9 @@
       </noscript>
       <div id="problems"></div>
       <button id="reportButton" class="btn btn-secondary my-4">
-        <span id="report">ぜんぶ 80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえた！</span>
-        <span id="correctReport" class="d-none">クリア！ つぎに<ruby>進<rp>(</rp><rt>すす</rt><rp>)</rp></ruby>むよ！</span>
-        <span id="incorrectReport" class="d-none">80 <ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby>をこえてないよ！</span>
+        <span id="report">ぜんぶ 80 点をこえた！</span>
+        <span id="correctReport" class="d-none">クリア！ つぎに進むよ！</span>
+        <span id="incorrectReport" class="d-none">80 点をこえてないよ！</span>
       </button>
     </main>
     <footer class="pt-4 alert text-center">
@@ -102,18 +102,14 @@
         }
       </style>
       <div id="problem">
-        <div id="info"></div>
+        <div id="info" class="notranslate"></div>
         <div id="tehon" class="words"></div>
         <div id="tegaki" class="words"></div>
         <div id="toolbox">
           <a id="search" target="_blank" rel="noopener noreferer">
-            <button id="search" class="btn btn-primary">
-              <ruby>意味<rp>(</rp><rt>いみ</rt><rp>)</rp></ruby><ruby>調<rp>(</rp><rt>しら</rt><rp>)</rp></ruby>べ
-            </button>
+            <button id="search" class="btn btn-primary">意味調べ</button>
           </a>
-          <button id="scoring" class="btn btn-primary">
-            <ruby>採点<rp>(</rp><rt>さいてん</rt><rp>)</rp></ruby>する
-          </button>
+          <button id="scoring" class="btn btn-primary">採点する</button>
         </div>
         <div id="guard"></div>
       </div>

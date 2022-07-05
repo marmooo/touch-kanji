@@ -46,7 +46,7 @@
         <div class="container flex-wrap">
           <a class="navbar-brand" href="/touch-kanji/">
             <img src="/touch-kanji/favicon/favicon.svg" width="32" height="32">
-            タッチ<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリル
+            タッチ漢字ドリル
           </a>
           <div class="navbar-nav">
             <select title="採点" id="levelOption" class="form-select form-select-sm w-auto">
@@ -75,26 +75,27 @@
       <noscript>
         <div class="alert alert-warning">JavaScript を ON にしてください</div>
       </noscript>
-      <p><ruby>自動採点<rp>(</rp><rt>じどうさいてん</rt><rp>)</rp></ruby>つきの<ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>ドリルです。
-      80<ruby>点<rp>(</rp><rt>てん</rt><rp>)</rp></ruby><ruby>以上<rp>(</rp><rt>いじょう</rt><rp>)</rp></ruby>になるまでやってみよう。</p>
+      <p>自動採点つきの漢字ドリルです。
+      80点以上になるまでやってみよう。
+      </p>
       <div class="card mt-3">
-        <h5 class="card-header ruby"><ruby>練習<rp>(</rp><rt>れんしゅう</rt><rp>)</rp></ruby>をはじめる</h5>
+        <h5 class="card-header ruby">練習をはじめる</h5>
         <div class="card-body">
           <details open>
-            <summary><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>リスト</summary>
-            <div id="problems" class="my-3">
+            <summary>漢字リスト</summary>
+            <div id="problems" class="my-3 notranslate">
             </div>
           </details>
           <div class="row">
             <div class="col-md pt-4">
               <p>シャッフルテストもできます。</p>
               <div class="text-center">
-                <button id="testRemained" class="m-1 btn btn-primary" title="未クリアをテスト"><ruby>未<rp>(</rp><rt>み</rt><rp>)</rp></ruby>クリアをテスト</button>
-                <button id="testCleared" class="m-1 btn btn-primary" title="クリア済をテスト">クリア<ruby>済<rp>(</rp><rt>ずみ</rt><rp>)</rp></ruby>をテスト</button>
+                <button id="testRemained" class="m-1 btn btn-primary" title="未クリアをテスト">未クリアをテスト</button>
+                <button id="testCleared" class="m-1 btn btn-primary" title="クリア済をテスト">クリア済みをテスト</button>
               </div>
             </div>
             <div class="col-md pt-4">
-              <p><ruby>漢字<rp>(</rp><rt>かんじ</rt><rp>)</rp></ruby>を<ruby>指定<rp>(</rp><rt>してい</rt><rp>)</rp></ruby>すると、ドリルが<ruby>作<rp>(</rp><rt>つく</rt><rp>)</rp></ruby>れます。</p>
+              <p>漢字を指定すると、ドリルが作れます。</p>
               <div class="d-flex justify-content-center">
                 <input title="ドリルの漢字" id="search" class="form-control w-50" type="text" placeholder="学, 校, 左右, etc.">
                 <button title="ドリルを作成" id="generateDrill" class="btn">
@@ -109,7 +110,7 @@
           <div class="pt-4 text-right">
             <button id="deleteData" class="btn" title="データ消去">
               <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-              <small>データ<ruby>消去<rp>(</rp><rt>しょうきょ</rt><rp>)</rp></ruby></small>
+              <small>データ消去</small>
             </button>
           </div>
         </div>
