@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-07-19 00:32";
+var CACHE_NAME = "2022-07-19 00:47";
 var urlsToCache = [
   "/touch-kanji/",
   "/touch-kanji/index.js",
@@ -12,7 +12,7 @@ var urlsToCache = [
   "/touch-kanji/mp3/stupid5.mp3",
   "/touch-kanji/favicon/favicon.svg",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.5/dist/signature_pad.umd.min.js",
+  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.6/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", function (event) {
