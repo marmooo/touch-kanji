@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-07-24 00:46";
+var CACHE_NAME = "2022-07-31 12:40";
 var urlsToCache = [
   "/touch-kanji/",
   "/touch-kanji/index.js",
