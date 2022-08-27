@@ -355,7 +355,7 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
         "object",
       );
       const scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector(
-        "#score",
+        ".score",
       );
       const kakuScores = getKakuScores(tegakiData, object, kanjiId, kakusu);
       kanjiScores = getKanjiScores(
@@ -380,15 +380,15 @@ function setScoringButton(
   tegakiPads,
   word,
 ) {
-  const scoring = problemBox.shadowRoot.querySelector("#scoring");
+  const scoring = problemBox.shadowRoot.querySelector(".scoring");
   scoring.addEventListener("click", () => {
     getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(
       (scores) => {
         if (scores.every((score) => score >= 80)) {
-          problemBox.shadowRoot.querySelector("#guard").style.height = "100%";
+          problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
           const next = problemBox.nextElementSibling;
           if (next) {
-            next.shadowRoot.querySelector("#guard").style.height = "0";
+            next.shadowRoot.querySelector(".guard").style.height = "0";
             const headerHeight = document.getElementById("header").offsetHeight;
             const top = next.getBoundingClientRect().top +
               document.documentElement.scrollTop - headerHeight;
@@ -436,7 +436,7 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object, kanjiId) {
   const currKanji = object.getRootNode().host;
   const kanjiPos = [...tegakiPanel.children].findIndex((x) => x == currKanji);
   const eraser = tehonPanel.children[kanjiPos].shadowRoot.querySelector(
-    "#eraser",
+    ".eraser",
   );
   eraser.onclick = () => {
     const data = tegakiPad.toData();
@@ -445,7 +445,7 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object, kanjiId) {
     }
     const pos = parseInt(object.dataset.pos);
     const scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector(
-      "#score",
+      ".score",
     );
     scoreObj.classList.add("d-none");
     if (localStorage.getItem("hint") != 1) {
@@ -456,7 +456,7 @@ function setEraser(tegakiPad, tegakiPanel, tehonPanel, object, kanjiId) {
 
 function setDict(tehonPanel, object, kanji) {
   const pos = parseInt(object.dataset.pos);
-  const dict = tehonPanel.children[pos].shadowRoot.querySelector("#dict");
+  const dict = tehonPanel.children[pos].shadowRoot.querySelector(".dict");
   const url = getDictUrl(kanji);
   if (url) {
     dict.href = url;
@@ -469,14 +469,14 @@ function loadProblem(wordYomi) {
   const [word, yomi] = wordYomi.split("|");
   const problemBox = document.createElement("problem-box");
   const shadow = problemBox.shadowRoot;
-  const info = shadow.querySelector("#info");
+  const info = shadow.querySelector(".info");
   info.textContent = yomi;
-  const search = shadow.querySelector("#search");
+  const search = shadow.querySelector(".search");
   search.href = "https://www.google.com/search?q=" + word + "とは";
   const objects = [];
   const tegakiPads = [];
-  const tehon = shadow.querySelector("#tehon");
-  const tegaki = shadow.querySelector("#tegaki");
+  const tehon = shadow.querySelector(".tehon");
+  const tegaki = shadow.querySelector(".tegaki");
   word.split("").forEach((kanji, pos) => {
     const kanjiId = toKanjiId(kanji);
     loadSVG(kanji, kanjiId, tehon, pos, false);
@@ -505,7 +505,7 @@ function setStrokeWidth(kakusu) {
 function toggleAllStroke() {
   const problems = document.getElementById("problems").children;
   for (const problem of problems) {
-    const tegakiBoxes = problem.shadowRoot.querySelector("#tegaki").children;
+    const tegakiBoxes = problem.shadowRoot.querySelector(".tegaki").children;
     for (const tegakiBox of tegakiBoxes) {
       const object = tegakiBox.shadowRoot.querySelector("object");
       const kanjiId = object.dataset.id;
@@ -663,9 +663,9 @@ function report() {
   const scores = [];
   const problems = document.getElementById("problems").children;
   for (let i = 0; i < problems.length; i++) {
-    const tegakis = problems[i].shadowRoot.querySelector("#tegaki").children;
+    const tegakis = problems[i].shadowRoot.querySelector(".tegaki").children;
     for (let j = 0; j < tegakis.length; j++) {
-      const score = tegakis[j].shadowRoot.querySelector("#score").textContent;
+      const score = tegakis[j].shadowRoot.querySelector(".score").textContent;
       scores.push(parseInt(score));
     }
   }
@@ -777,7 +777,7 @@ function initQuery() {
     }
     loadDrill(problems);
     document.getElementById("problems").children[0].shadowRoot.querySelector(
-      "#guard",
+      ".guard",
     ).style.height = "0";
   });
 }
