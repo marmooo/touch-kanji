@@ -133,6 +133,7 @@ function generateDrill() {
 function setLinkTemplate() {
   const a = document.createElement("a");
   a.className = "me-1 mb-1 btn btn-outline-secondary btn-sm";
+  a.role = "button";
   return a;
 }
 const linkTemplate = setLinkTemplate();
