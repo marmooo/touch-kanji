@@ -164,7 +164,7 @@ document.getElementById("gradeOption").onchange = changeGrade;
 document.getElementById("levelOption").onchange = changeLevel;
 document.getElementById("search").addEventListener("keydown", (event) => {
   if (event.key == "Enter") {
-    const words = this.value;
+    const words = event.target.value;
     if (words && words.split("").some((word) => w9.includes(word))) {
       location.href = `/touch-kanji/drill/?q=${words}`;
     }
