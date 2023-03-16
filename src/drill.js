@@ -711,17 +711,6 @@ function shuffle(array) {
   return array;
 }
 
-function parseQuery(queryString) {
-  const query = {};
-  const pairs = (queryString[0] === "?" ? queryString.substr(1) : queryString)
-    .split("&");
-  for (let i = 0; i < pairs.length; i++) {
-    const pair = pairs[i].split("=");
-    query[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || "");
-  }
-  return query;
-}
-
 function uniq(array) {
   return array.filter((elem, index, self) => self.indexOf(elem) === index);
 }
@@ -746,8 +735,8 @@ async function fetchJsons(grades) {
 
 function initQuery() {
   const num = 5;
-  const queries = parseQuery(location.search);
-  kanjis = queries["q"] || "学";
+  const query = new URLSearchParams(location.search);
+  kanjis = query.get("q") || "学";
   const targetKanjis = [];
   const targetGrades = [];
   const grades = new Array(10);
