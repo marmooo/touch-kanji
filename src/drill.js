@@ -46,10 +46,10 @@ const kanjivgDir = "/kanjivg";
 const canvasSize = 140;
 const audioContext = new AudioContext();
 const audioBufferCache = {};
-loadAudio("stupid", "mp3/stupid5.mp3");
-loadAudio("correct", "mp3/correct3.mp3");
-loadAudio("correctAll", "mp3/correct1.mp3");
-loadAudio("incorrect", "mp3/incorrect1.mp3");
+loadAudio("stupid", "/touch-kanji/mp3/stupid5.mp3");
+loadAudio("correct", "/touch-kanji/mp3/correct3.mp3");
+loadAudio("correctAll", "/touch-kanji/mp3/correct1.mp3");
+loadAudio("incorrect", "/touch-kanji/mp3/incorrect1.mp3");
 let kanjis = "";
 let level = 2;
 loadConfig();
@@ -105,13 +105,13 @@ function toggleDarkMode() {
   }
 }
 
-function toggleHint() {
+function toggleHint(event) {
   if (localStorage.getItem("hint") == 1) {
     localStorage.setItem("hint", 0);
-    this.textContent = "HARD";
+    event.target.textContent = "HARD";
   } else {
     localStorage.setItem("hint", 1);
-    this.textContent = "EASY";
+    event.target.textContent = "EASY";
   }
   toggleAllStroke();
 }
@@ -259,7 +259,7 @@ function loadSVG(kanji, kanjiId, parentNode, pos, loadCanvas) {
   object.setAttribute("data-id", kanjiId);
   object.setAttribute("data-pos", pos);
   if (loadCanvas) {
-    object.setAttribute("onload", "_initSVG(this)");
+    object.onload = initSVG;
   }
   parentNode.appendChild(box);
   return object;
@@ -635,7 +635,8 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
   return promises;
 }
 
-function _initSVG(object) {
+function initSVG(event) {
+  const object = event.target;
   const kanjiId = object.dataset.id;
   const kakusu = getKakusu(object, kanjiId);
   toggleStroke(object, kanjiId, kakusu);
