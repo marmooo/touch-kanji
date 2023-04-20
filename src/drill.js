@@ -327,12 +327,10 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
     const tegakiData = tegakiPads[i].toData();
     let kanjiScores = 0;
     if (tegakiData.length != 0) {
-      const tehonKanji = tehonPanel.children[pos].shadowRoot.querySelector(
-        "object",
-      );
-      const scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector(
-        ".score",
-      );
+      const tehonKanji = tehonPanel.children[pos]
+        .shadowRoot.querySelector("object");
+      const scoreObj = tegakiPanel.children[pos]
+        .shadowRoot.querySelector(".score");
       const kakuScores = getKakuScores(tegakiData, object, kanjiId, kakusu);
       kanjiScores = getKanjiScores(
         kakuScores,
@@ -411,18 +409,16 @@ function setSignaturePad(object) {
 function setEraser(tegakiPad, tegakiPanel, tehonPanel, object, kanjiId) {
   const currKanji = object.getRootNode().host;
   const kanjiPos = [...tegakiPanel.children].findIndex((x) => x == currKanji);
-  const eraser = tehonPanel.children[kanjiPos].shadowRoot.querySelector(
-    ".eraser",
-  );
+  const eraser = tehonPanel.children[kanjiPos]
+    .shadowRoot.querySelector(".eraser");
   eraser.onclick = () => {
     const data = tegakiPad.toData();
     if (data) {
       tegakiPad.clear();
     }
     const pos = parseInt(object.dataset.pos);
-    const scoreObj = tegakiPanel.children[pos].shadowRoot.querySelector(
-      ".score",
-    );
+    const scoreObj = tegakiPanel.children[pos]
+      .shadowRoot.querySelector(".score");
     scoreObj.classList.add("d-none");
     if (localStorage.getItem("hint") != 1) {
       changeAllColor(object, kanjiId, "none");
@@ -595,12 +591,8 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
           markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
         const kakuCount = countNoTransparent(kakuData);
         getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d").getImageData(
-            0,
-            0,
-            canvasSize,
-            canvasSize,
-          ).data;
+          const tehonImgData = tehonCanvas.getContext("2d")
+            .getImageData(0, 0, canvasSize, canvasSize).data;
           const tehonCount = countNoTransparent(tehonImgData);
 
           const inclusionCount = getInclusionCount(kakuData, tehonImgData);
@@ -613,12 +605,8 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
         });
       } else {
         getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d").getImageData(
-            0,
-            0,
-            canvasSize,
-            canvasSize,
-          ).data;
+          const tehonImgData = tehonCanvas.getContext("2d")
+            .getImageData(0, 0, canvasSize, canvasSize).data;
           const tehonCount = countNoTransparent(tehonImgData);
           resolve([0, tehonCount]);
         });
@@ -740,9 +728,8 @@ function initQuery() {
       });
     }
     loadDrill(problems);
-    document.getElementById("problems").children[0].shadowRoot.querySelector(
-      ".guard",
-    ).style.height = "0";
+    document.getElementById("problems").children[0]
+      .shadowRoot.querySelector(".guard").style.height = "0";
   });
 }
 // https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a
