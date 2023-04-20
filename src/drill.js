@@ -120,13 +120,13 @@ function toggleScroll() {
   const scrollable = document.getElementById("scrollable");
   const pinned = document.getElementById("pinned");
   if (scrollable.classList.contains("d-none")) {
-    window.removeEventListener("touchstart", scrollEvent, { passive: false });
-    window.removeEventListener("touchmove", scrollEvent, { passive: false });
+    document.removeEventListener("touchstart", scrollEvent, { passive: false });
+    document.removeEventListener("touchmove", scrollEvent, { passive: false });
     scrollable.classList.remove("d-none");
     pinned.classList.add("d-none");
   } else {
-    window.addEventListener("touchstart", scrollEvent, { passive: false });
-    window.addEventListener("touchmove", scrollEvent, { passive: false });
+    document.addEventListener("touchstart", scrollEvent, { passive: false });
+    document.addEventListener("touchmove", scrollEvent, { passive: false });
     scrollable.classList.add("d-none");
     pinned.classList.remove("d-none");
   }
@@ -370,10 +370,10 @@ function setScoringButton(
               document.documentElement.scrollTop - headerHeight;
             window.scrollTo({ top: top, behavior: "smooth" });
           } else {
-            window.removeEventListener("touchstart", scrollEvent, {
+            document.removeEventListener("touchstart", scrollEvent, {
               passive: false,
             });
-            window.removeEventListener("touchmove", scrollEvent, {
+            document.removeEventListener("touchmove", scrollEvent, {
               passive: false,
             });
           }
