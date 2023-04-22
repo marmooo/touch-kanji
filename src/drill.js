@@ -227,7 +227,7 @@ function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
       const canvas = document.createElement("canvas");
       canvas.width = canvasSize;
       canvas.height = canvasSize;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
       ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
       resolve(canvas);
     };
