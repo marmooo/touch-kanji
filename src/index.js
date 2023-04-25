@@ -43,15 +43,15 @@ const gradeByKanjis = [w1_, w1_, w2_, w3_, w4_, w5_, w6_, w7_, w8_, w9_];
 let grade = 4;
 loadConfig();
 
-function changeGrade() {
-  grade = this.selectedIndex + 1;
+function changeGrade(event) {
+  grade = event.target.selectedIndex + 1;
   setProblems();
   setCleared();
   localStorage.setItem("grade", grade);
 }
 
-function changeLevel() {
-  const level = this.selectedIndex;
+function changeLevel(event) {
+  const level = event.target.selectedIndex;
   localStorage.setItem("touch-kanji-level", level);
 }
 
@@ -169,4 +169,4 @@ document.getElementById("search").addEventListener("keydown", (event) => {
       location.href = `/touch-kanji/drill/?q=${words}`;
     }
   }
-}, false);
+});
