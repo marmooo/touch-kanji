@@ -227,7 +227,7 @@ function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
       const canvas = document.createElement("canvas");
       canvas.width = canvasSize;
       canvas.height = canvasSize;
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      const ctx = canvas.getContext("2d", { alpha: false });
       ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
       resolve(canvas);
     };
@@ -580,7 +580,7 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
         const markerCanvas = document.createElement("canvas");
         markerCanvas.setAttribute("width", canvasSize);
         markerCanvas.setAttribute("height", canvasSize);
-        const markerContext = markerCanvas.getContext("2d");
+        const markerContext = markerCanvas.getContext("2d", { alpha: false });
         const markerPad = new SignaturePad(markerCanvas, {
           minWidth: markerWidth,
           maxWidth: markerWidth,
@@ -591,7 +591,7 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
           markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
         const kakuCount = countNoTransparent(kakuData);
         getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d")
+          const tehonImgData = tehonCanvas.getContext("2d", { alpha: false })
             .getImageData(0, 0, canvasSize, canvasSize).data;
           const tehonCount = countNoTransparent(tehonImgData);
 
@@ -605,7 +605,7 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
         });
       } else {
         getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d")
+          const tehonImgData = tehonCanvas.getContext("2d", { alpha: false })
             .getImageData(0, 0, canvasSize, canvasSize).data;
           const tehonCount = countNoTransparent(tehonImgData);
           resolve([0, tehonCount]);
