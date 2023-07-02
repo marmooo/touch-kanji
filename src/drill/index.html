@@ -35,13 +35,12 @@
     <style>
       html { touch-action:manipulation; }
       #problems { display:flex; flex-direction:row-reverse; flex-wrap:wrap; justify-content:center; }
-      html[data-theme="dark"] { filter: invert(1) hue-rotate(180deg); }
-      @-moz-document url-prefix() { html[data-theme="dark"] { background-color:black; } }
+      html[data-bs-theme="dark"] .navbar-brand > img { filter: invert(1) hue-rotate(180deg); }
     </style>
   </head>
   <body>
-    <header id="header" class="sticky-top bg-white">
-      <nav class="navbar navbar-expand navbar-light">
+    <header id="header" class="sticky-top bg-body">
+      <nav class="navbar navbar-expand">
         <div class="container flex-wrap">
           <a class="navbar-brand" href="/touch-kanji/">
             <img alt="タッチ漢字ドリル" src="/touch-kanji/favicon/favicon.svg" width="32" height="32">
@@ -112,39 +111,36 @@
     </template>
     <template id="tehon-box">
       <style>
-        .container { position:relative; }
         object { display:block; border:solid 1px silver; }
-        .dict {
-          position:absolute; top:1px; left:1px; background-color:white; cursor:pointer;
-          -webkit-touch-callout:none; touch-action:none;
-        }
-        .eraser {
-          position:absolute; top:1px; right:1px; background-color:white; cursor:pointer;
-          -webkit-touch-callout:none; touch-action:none;
-        }
-        .d-none { display:none; }
+        .dict { position:absolute; top:1px; left:1px; }
+        .eraser { position:absolute; top:1px; right:1px; touch-action:none; }
       </style>
-      <div class="container">
+      <div class="position-relative">
         <object type="image/svg+xml" width="140" height="140" alt="手本の文字"></object>
-        <a class="dict" target="_blank" rel="noopener noreferer">
-          <img src="/touch-kanji/svg/dict.svg" width="16" height="16" alt="辞書で調べる" role="button">
+        <a title="辞書で調べる" class="dict lh-1" target="_blank" rel="noopener noreferer" role="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+            <circle cx="8" cy="4.5" r="1"/>
+          </svg>
         </a>
-        <img src="/touch-kanji/svg/eraser.svg" class="eraser" width="16" height="16" alt="文字を消す" role="button">
+        <button title="文字を消す" class="eraser btn p-0 lh-1" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10.85597,20 L11.1558049,20 C11.5909491,19.9657654 12.0165519,19.7822288 12.3493903,19.4493903 L13.0458369,18.7529437 L5.25294373,10.9600505 L4.55649712,11.6564971 C3.81450096,12.3984933 3.81450096,13.6015067 4.55649712,14.3435029 L9.66238457,19.4493903 C9.99522304,19.7822288 10.4208258,19.9657654 10.8559701,20 Z M13.2129942,20 L18.5,20 C18.7761424,20 19,20.2238576 19,20.5 C19,20.7761424 18.7761424,21 18.5,21 L11.1911564,21 C11.0677787,21.0078499 10.9439962,21.0078499 10.8206199,21 L5.5,21 C5.22385763,21 5,20.7761424 5,20.5 C5,20.2238576 5.22385763,20 5.5,20 L8.79878067,20 L3.84939033,15.0506097 C2.71686989,13.9180892 2.71686989,12.0819108 3.84939033,10.9493903 L10.9552778,3.84350288 C12.0877982,2.71098244 13.9239767,2.71098244 15.0564971,3.84350288 L20.1623846,8.94939033 C21.294905,10.0819108 21.294905,11.9180892 20.1623846,13.0506097 L13.2129942,20 Z M5.96005051,10.2529437 L13.7529437,18.0458369 L19.4552778,12.3435029 C20.1972739,11.6015067 20.1972739,10.3984933 19.4552778,9.65649712 L14.3493903,4.55060967 C13.6073942,3.80861351 12.4043807,3.80861351 11.6623846,4.55060967 L5.96005051,10.2529437 Z"/>
+          </svg>
+        </button>
       </div>
     </template>
     <template id="tegaki-box">
       <style>
-        .container { position:relative; }
         object { display:block; border:solid 1px silver; }
         canvas { position:absolute; top:0px; left:0px; -webkit-user-select:none; }
-        .d-none { display:none; }
         .score {
           position:absolute; top:1px; left:1px;
           width:32px; height:32px; font-size:16px; line-height:32px;
-          color:red; background-color:white; border:1px solid red; border-radius:16px;
+          color:red; border:1px solid red; border-radius:16px;
         }
       </style>
-      <div class="container">
+      <div class="position-relative">
         <object type="image/svg+xml" width="140" height="140" alt="手書き文字"></object>
         <canvas width="140" height="140"></canvas>
         <div class="score d-none"></div>

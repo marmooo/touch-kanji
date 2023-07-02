@@ -57,7 +57,7 @@ function changeLevel(event) {
 
 function loadConfig() {
   if (localStorage.getItem("darkMode") == 1) {
-    document.documentElement.dataset.theme = "dark";
+    document.documentElement.setAttribute("data-bs-theme", "dark");
   }
   if (localStorage.getItem("grade")) {
     grade = parseInt(localStorage.getItem("grade"));
@@ -72,10 +72,10 @@ function loadConfig() {
 function toggleDarkMode() {
   if (localStorage.getItem("darkMode") == 1) {
     localStorage.setItem("darkMode", 0);
-    delete document.documentElement.dataset.theme;
+    document.documentElement.setAttribute("data-bs-theme", "light");
   } else {
     localStorage.setItem("darkMode", 1);
-    document.documentElement.dataset.theme = "dark";
+    document.documentElement.setAttribute("data-bs-theme", "dark");
   }
 }
 
