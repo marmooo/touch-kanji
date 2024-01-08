@@ -706,7 +706,6 @@ function initQuery() {
     if (targetKanjis.length == 1) {
       const kanji = targetKanjis[0];
       const grade = targetGrades[0];
-      console.log(data, grade, kanji);
       problems = [data[grade][kanji].shift()];
       problems = problems.concat(shuffle(data[grade][kanji]).slice(0, num));
     } else {
