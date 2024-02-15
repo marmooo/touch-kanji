@@ -1,5 +1,5 @@
-import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.4/esm/kanji.js";
-import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.4/esm/jkat.js";
+import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.8/esm/kanji.js";
+import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.8/esm/jkat.js";
 
 const jkat = new Kanji(JKAT);
 const dirNames = [
