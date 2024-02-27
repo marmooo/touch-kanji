@@ -90,13 +90,11 @@ function toggleScroll() {
   const scrollable = document.getElementById("scrollable");
   const pinned = document.getElementById("pinned");
   if (scrollable.classList.contains("d-none")) {
-    document.removeEventListener("touchstart", scrollEvent, { passive: false });
-    document.removeEventListener("touchmove", scrollEvent, { passive: false });
+    document.body.style.overflow = "visible";
     scrollable.classList.remove("d-none");
     pinned.classList.add("d-none");
   } else {
-    document.addEventListener("touchstart", scrollEvent, { passive: false });
-    document.addEventListener("touchmove", scrollEvent, { passive: false });
+    document.body.style.overflow = "hidden";
     scrollable.classList.add("d-none");
     pinned.classList.remove("d-none");
   }
@@ -359,13 +357,6 @@ function setScoringButton(
             const top = next.getBoundingClientRect().top +
               document.documentElement.scrollTop - headerHeight;
             window.scrollTo({ top: top, behavior: "smooth" });
-          } else {
-            document.removeEventListener("touchstart", scrollEvent, {
-              passive: false,
-            });
-            document.removeEventListener("touchmove", scrollEvent, {
-              passive: false,
-            });
           }
         }
         // 点数があまりにも低いものは合格リストから除外
@@ -719,16 +710,6 @@ function initQuery() {
     document.getElementById("problems").children[0]
       .shadowRoot.querySelector(".guard").style.height = "0";
   });
-}
-// https://qiita.com/noraworld/items/2834f2e6f064e6f6d41a
-// https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
-// 手を置いた時の誤爆を防ぎつつスクロールは許可
-function scrollEvent(e) {
-  if (
-    !["MAIN", "PROBLEM-BOX", "A", "BUTTON", "path"].includes(e.target.tagName)
-  ) {
-    e.preventDefault();
-  }
 }
 
 function getGlobalCSS() {
