@@ -60,7 +60,8 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", 0);
     document.documentElement.setAttribute("data-bs-theme", "light");
     boxes.forEach((box) => {
-      [...box.shadowRoot.querySelectorAll("object, canvas")].forEach((canvas) => {
+      const target = box.shadowRoot.querySelectorAll("object, canvas");
+      [...target].forEach((canvas) => {
         canvas.removeAttribute("style");
       });
     });
@@ -68,7 +69,8 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", 1);
     document.documentElement.setAttribute("data-bs-theme", "dark");
     boxes.forEach((box) => {
-      [...box.shadowRoot.querySelectorAll("object, canvas")].forEach((canvas) => {
+      const target = box.shadowRoot.querySelectorAll("object, canvas");
+      [...target].forEach((canvas) => {
         canvas.setAttribute("style", "filter: invert(1) hue-rotate(180deg);");
       });
     });
@@ -153,7 +155,8 @@ class TehonBox extends HTMLElement {
     this.shadowRoot.appendChild(template);
 
     if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
-      [...this.shadowRoot.querySelectorAll("object, canvas")].forEach((canvas) => {
+      const target = this.shadowRoot.querySelectorAll("object, canvas");
+      [...target].forEach((canvas) => {
         canvas.setAttribute("style", "filter: invert(1) hue-rotate(180deg);");
       });
     }
@@ -172,7 +175,8 @@ class TegakiBox extends HTMLElement {
     this.shadowRoot.appendChild(template);
 
     if (document.documentElement.getAttribute("data-bs-theme") == "dark") {
-      [...this.shadowRoot.querySelectorAll("object, canvas")].forEach((canvas) => {
+      const target = this.shadowRoot.querySelectorAll("object, canvas");
+      [...target].forEach((canvas) => {
         canvas.setAttribute("style", "filter: invert(1) hue-rotate(180deg);");
       });
     }
