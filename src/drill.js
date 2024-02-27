@@ -18,14 +18,19 @@ const dirNames = [
 ];
 const kanjivgDir = "/kanjivg";
 const canvasSize = 140;
+const repeatCount = 3;
 let kanjis = "";
+let words = [];
 let level = 2;
+let clearCount = 0;
 const audioContext = new AudioContext();
 const audioBufferCache = {};
 loadAudio("stupid", "/touch-kanji/mp3/stupid5.mp3");
 loadAudio("correct", "/touch-kanji/mp3/correct3.mp3");
 loadAudio("correctAll", "/touch-kanji/mp3/correct1.mp3");
 loadAudio("incorrect", "/touch-kanji/mp3/incorrect1.mp3");
+let japaneseVoices = [];
+loadVoices();
 loadConfig();
 
 // function toKanji(kanjiId) {
@@ -102,6 +107,18 @@ function toggleScroll() {
   }
 }
 
+function toggleVoice() {
+  const voiceOn = document.getElementById("voiceOn");
+  const voiceOff = document.getElementById("voiceOff");
+  if (voiceOn.classList.contains("d-none")) {
+    voiceOn.classList.remove("d-none");
+    voiceOff.classList.add("d-none");
+  } else {
+    voiceOn.classList.add("d-none");
+    voiceOff.classList.remove("d-none");
+  }
+}
+
 async function playAudio(name, volume) {
   const audioBuffer = await loadAudio(name, audioBufferCache[name]);
   const sourceNode = audioContext.createBufferSource();
@@ -129,6 +146,41 @@ async function loadAudio(name, url) {
 
 function unlockAudio() {
   audioContext.resume();
+}
+
+function loadVoices() {
+  // https://stackoverflow.com/questions/21513706/
+  const allVoicesObtained = new Promise((resolve) => {
+    let voices = speechSynthesis.getVoices();
+    if (voices.length !== 0) {
+      resolve(voices);
+    } else {
+      let supported = false;
+      speechSynthesis.addEventListener("voiceschanged", () => {
+        supported = true;
+        voices = speechSynthesis.getVoices();
+        resolve(voices);
+      });
+      setTimeout(() => {
+        if (!supported) {
+          document.getElementById("noTTS").classList.remove("d-none");
+        }
+      }, 1000);
+    }
+  });
+  allVoicesObtained.then((voices) => {
+    japaneseVoices = voices.filter((voice) => voice.lang == "ja-JP");
+  });
+}
+
+function loopVoice(text, n) {
+  speechSynthesis.cancel();
+  const msg = new SpeechSynthesisUtterance(text);
+  msg.voice = japaneseVoices[Math.floor(Math.random() * japaneseVoices.length)];
+  msg.lang = "ja-JP";
+  for (let i = 0; i < n; i++) {
+    speechSynthesis.speak(msg);
+  }
 }
 
 class ProblemBox extends HTMLElement {
@@ -353,9 +405,16 @@ function setScoringButton(
     getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(
       (scores) => {
         if (scores.every((score) => score >= 80)) {
+          clearCount += 1;
           problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
           const next = problemBox.nextElementSibling;
           if (next) {
+            const voiceOff = document.getElementById("voiceOn")
+              .classList.contains("d-none");
+            if (!voiceOff) {
+              const hira = words[clearCount].split("|")[1];
+              loopVoice(hira, repeatCount);
+            }
             next.shadowRoot.querySelector(".guard").style.height = "0";
             const headerHeight = document.getElementById("header").offsetHeight;
             const top = next.getBoundingClientRect().top +
@@ -697,20 +756,20 @@ function initQuery() {
     }
   });
   fetchJsons([...new Set(targetGrades)]).then((data) => {
-    let problems = [];
+    words = [];
     if (targetKanjis.length == 1) {
       const kanji = targetKanjis[0];
       const grade = targetGrades[0];
-      problems = [data[grade][kanji].shift()];
-      problems = problems.concat(shuffle(data[grade][kanji]).slice(0, num));
+      words = [data[grade][kanji].shift()];
+      words = words.concat(shuffle(data[grade][kanji]).slice(0, num));
     } else {
       targetKanjis.forEach((kanji, i) => {
         const grade = targetGrades[i];
         const candidates = data[grade][kanji].slice(1);
-        problems = problems.concat(shuffle(candidates)[0]);
+        words = words.concat(shuffle(candidates)[0]);
       });
     }
-    loadDrill(problems);
+    loadDrill(words);
     document.getElementById("problems").children[0]
       .shadowRoot.querySelector(".guard").style.height = "0";
   });
@@ -735,6 +794,7 @@ initQuery();
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("hint").onclick = toggleHint;
 document.getElementById("toggleScroll").onclick = toggleScroll;
+document.getElementById("toggleVoice").onclick = toggleVoice;
 document.getElementById("reportButton").onclick = report;
 document.addEventListener("click", unlockAudio, {
   once: true,
