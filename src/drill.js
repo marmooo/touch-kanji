@@ -89,16 +89,16 @@ function toggleHint(event) {
 }
 
 function toggleScroll() {
-  const scrollable = document.getElementById("scrollable");
-  const pinned = document.getElementById("pinned");
-  if (scrollable.classList.contains("d-none")) {
+  const scrollOn = document.getElementById("scrollOn");
+  const scrollOff = document.getElementById("scrollOff");
+  if (scrollOn.classList.contains("d-none")) {
     document.body.style.overflow = "visible";
-    scrollable.classList.remove("d-none");
-    pinned.classList.add("d-none");
+    scrollOn.classList.remove("d-none");
+    scrollOff.classList.add("d-none");
   } else {
     document.body.style.overflow = "hidden";
-    scrollable.classList.add("d-none");
-    pinned.classList.remove("d-none");
+    scrollOn.classList.add("d-none");
+    scrollOff.classList.remove("d-none");
   }
 }
 
