@@ -509,12 +509,6 @@ function loadProblem(wordYomi) {
   document.getElementById("problems").appendChild(problemBox);
 }
 
-function loadDrill(drill) {
-  drill.forEach((wordYomi) => {
-    loadProblem(wordYomi);
-  });
-}
-
 // 器用差の大きい低学年の採点が緩くなるよう太さを変える
 function setStrokeWidth(kakusu) {
   return 15 + 6 / kakusu;
@@ -730,49 +724,45 @@ function fetchJson(grade) {
   });
 }
 
-async function fetchJsons(grades) {
-  const data = new Array(10);
-  for (let i = 0; i < grades.length; i++) {
-    await fetchJson(grades[i]).then((result) => {
-      data[grades[i]] = result;
+async function initProblems() {
+  const num = 5;
+  const targetGrades = [];
+  const targetKanjis = [];
+  Array.from(kanjis).forEach((kanji) => {
+    const grade = jkat.getGrade(kanji);
+    if (grade >= 0) {
+      targetGrades.push(grade);
+      targetKanjis.push(kanji);
+    }
+  });
+  const promises = targetGrades.map((grade) => fetchJson(grade));
+  const data = await Promise.all(promises);
+  if (targetKanjis.length == 1) {
+    const kanji = targetKanjis[0];
+    const onkun = data[0][kanji].shift();
+    const problems = shuffle(data[0][kanji]);
+    words = [onkun, ...problems.slice(0, num)];
+  } else {
+    data.forEach((datum, i) => {
+      const kanji = targetKanjis[i];
+      datum[kanji].shift();
+      const problems = shuffle(datum[kanji]);
+      words.push(problems[0]);
     });
   }
-  return data;
+  initDrill();
+}
+
+function initDrill() {
+  words.forEach((word) => loadProblem(word));
+  document.getElementById("problems").children[0]
+    .shadowRoot.querySelector(".guard").style.height = "0";
 }
 
 function initQuery() {
-  const num = 5;
-  const query = new URLSearchParams(location.search);
-  kanjis = query.get("q") || "学";
-  const targetKanjis = [];
-  const targetGrades = [];
-  const grades = new Array(10);
-  Array.from(kanjis).forEach((kanji) => {
-    const g = jkat.getGrade(kanji);
-    if (g >= 0) {
-      targetKanjis.push(kanji);
-      targetGrades.push(g);
-      grades[g] = true;
-    }
-  });
-  fetchJsons([...new Set(targetGrades)]).then((data) => {
-    words = [];
-    if (targetKanjis.length == 1) {
-      const kanji = targetKanjis[0];
-      const grade = targetGrades[0];
-      words = [data[grade][kanji].shift()];
-      words = words.concat(shuffle(data[grade][kanji]).slice(0, num));
-    } else {
-      targetKanjis.forEach((kanji, i) => {
-        const grade = targetGrades[i];
-        const candidates = data[grade][kanji].slice(1);
-        words = words.concat(shuffle(candidates)[0]);
-      });
-    }
-    loadDrill(words);
-    document.getElementById("problems").children[0]
-      .shadowRoot.querySelector(".guard").style.height = "0";
-  });
+  const params = new URLSearchParams(location.search);
+  kanjis = params.get("q") || "学";
+  initProblems();
 }
 
 function getGlobalCSS() {
