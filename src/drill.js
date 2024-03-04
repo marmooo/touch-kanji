@@ -20,7 +20,6 @@ const kanjivgDir = "/kanjivg";
 const canvasSize = 140;
 const repeatCount = 3;
 let kanjis = "";
-let words = [];
 let level = 2;
 let clearCount = 0;
 const audioContext = new AudioContext();
@@ -724,7 +723,7 @@ function fetchJson(grade) {
   });
 }
 
-async function initProblems() {
+async function initWords() {
   const num = 5;
   const targetGrades = [];
   const targetKanjis = [];
@@ -737,11 +736,12 @@ async function initProblems() {
   });
   const promises = targetGrades.map((grade) => fetchJson(grade));
   const data = await Promise.all(promises);
+  const words = [];
   if (targetKanjis.length == 1) {
     const kanji = targetKanjis[0];
     const onkun = data[0][kanji].shift();
     const problems = shuffle(data[0][kanji]);
-    words = [onkun, ...problems.slice(0, num)];
+    words.push(onkun, ...problems.slice(0, num));
   } else {
     data.forEach((datum, i) => {
       const kanji = targetKanjis[i];
@@ -750,7 +750,7 @@ async function initProblems() {
       words.push(problems[0]);
     });
   }
-  initDrill();
+  return words;
 }
 
 function initDrill() {
@@ -762,7 +762,6 @@ function initDrill() {
 function initQuery() {
   const params = new URLSearchParams(location.search);
   kanjis = params.get("q") || "学";
-  initProblems();
 }
 
 function getGlobalCSS() {
@@ -778,8 +777,10 @@ function getGlobalCSS() {
 }
 
 const boxes = [];
-const globalCSS = getGlobalCSS();
 initQuery();
+const words = await initWords();
+const globalCSS = getGlobalCSS();
+initDrill();
 
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("hint").onclick = toggleHint;
