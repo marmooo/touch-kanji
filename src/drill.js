@@ -1,5 +1,6 @@
 import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.8/esm/kanji.js";
 import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.0.8/esm/jkat.js";
+import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/+esm";
 
 const jkat = new Kanji(JKAT);
 const dirNames = [
@@ -442,7 +443,7 @@ function setScoringButton(
 
 function setSignaturePad(object) {
   const canvas = object.parentNode.querySelector("canvas");
-  return new SignaturePad(canvas, {
+  return new signaturePad(canvas, {
     minWidth: 2,
     maxWidth: 2,
     penColor: "black",
@@ -620,7 +621,7 @@ function getKakuScores(tegakiData, object, kanjiId, kakusu) {
         markerCanvas.setAttribute("width", canvasSize);
         markerCanvas.setAttribute("height", canvasSize);
         const markerContext = markerCanvas.getContext("2d", { alpha: false });
-        const markerPad = new SignaturePad(markerCanvas, {
+        const markerPad = new signaturePad(markerCanvas, {
           minWidth: markerWidth,
           maxWidth: markerWidth,
           penColor: "black",
