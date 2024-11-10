@@ -272,32 +272,31 @@ function getKakusu(object, kanjiId) {
   return max - 1;
 }
 
-function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
-  return new Promise((resolve) => {
-    const clonedContent = object.contentDocument.cloneNode(true);
-    const id = "kvg:StrokePaths_" + kanjiId;
-    const paths = clonedContent.querySelector('[id="' + id + '"]');
-    paths.style.stroke = "black";
-    for (let j = 1; j <= kakusu; j++) {
-      const path = clonedContent.getElementById("kvg:" + kanjiId + "-s" + j);
-      if (kakuNo != j) {
-        path.remove();
-      }
+async function getTehonCanvas(object, kanjiId, kakusu, kakuNo) {
+  const clonedContent = object.contentDocument.cloneNode(true);
+  const id = "kvg:StrokePaths_" + kanjiId;
+  const paths = clonedContent.querySelector('[id="' + id + '"]');
+  paths.style.stroke = "black";
+  for (let j = 1; j <= kakusu; j++) {
+    const path = clonedContent.getElementById("kvg:" + kanjiId + "-s" + j);
+    if (kakuNo != j) {
+      path.remove();
     }
-    const text = clonedContent.documentElement.outerHTML;
-    const blob = new Blob([text], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const img = new Image();
-    img.src = url;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = canvasSize;
-      canvas.height = canvasSize;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
-      resolve(canvas);
-    };
+  }
+  const text = clonedContent.documentElement.outerHTML;
+  const blob = new Blob([text], { type: "image/svg+xml" });
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.src = url;
+  await new Promise((resolve) => {
+    img.onload = resolve;
   });
+  const canvas = document.createElement("canvas");
+  canvas.width = canvasSize;
+  canvas.height = canvasSize;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img, 0, 0, canvasSize, canvasSize);
+  return canvas;
 }
 
 function toKanjiId(str) {
@@ -363,31 +362,30 @@ function getKanjiScores(
   kanjiId,
   kakusu,
 ) {
-  return Promise.all(kakuScores).then((kakuScores) => {
-    let kanjiScore = 0;
-    let totalTehonCount = 0;
-    kakuScores.forEach((kakuData) => {
-      const [kakuScore, tehonCount] = kakuData;
-      kanjiScore += kakuScore * tehonCount;
-      totalTehonCount += tehonCount;
-    });
-    kanjiScore /= totalTehonCount;
-    showKanjiScore(
-      kanjiScore,
-      kakuScores,
-      scoreObj,
-      tehonKanji,
-      object,
-      kanjiId,
-      kakusu,
-    );
-    return kanjiScore;
+  let kanjiScore = 0;
+  let totalTehonCount = 0;
+  kakuScores.forEach((kakuData) => {
+    const [kakuScore, tehonCount] = kakuData;
+    kanjiScore += kakuScore * tehonCount;
+    totalTehonCount += tehonCount;
   });
+  kanjiScore /= totalTehonCount;
+  showKanjiScore(
+    kanjiScore,
+    kakuScores,
+    scoreObj,
+    tehonKanji,
+    object,
+    kanjiId,
+    kakusu,
+  );
+  return kanjiScore;
 }
 
-function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
-  const promises = [];
-  objects.forEach((object, i) => {
+async function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
+  const scores = new Array(objects.length);
+  for (let i = 0; i < objects.length; i++) {
+    const object = objects[i];
     const kanjiId = object.dataset.id;
     const kakusu = getKakusu(object, kanjiId);
     const pos = parseInt(object.dataset.pos);
@@ -398,7 +396,12 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
         .shadowRoot.querySelector("object");
       const scoreObj = tegakiPanel.children[pos]
         .shadowRoot.querySelector(".score");
-      const kakuScores = getKakuScores(tegakiData, object, kanjiId, kakusu);
+      const kakuScores = await getKakuScores(
+        tegakiData,
+        object,
+        kanjiId,
+        kakusu,
+      );
       kanjiScores = getKanjiScores(
         kakuScores,
         scoreObj,
@@ -408,9 +411,9 @@ function getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads) {
         kakusu,
       );
     }
-    promises[i] = kanjiScores;
-  });
-  return Promise.all(promises);
+    scores[i] = kanjiScores;
+  }
+  return scores;
 }
 
 function setScoringButton(
@@ -630,51 +633,48 @@ function calcKakuScore(tegakiCount, tehonCount, inclusionCount) {
   return kakuScore;
 }
 
-function getKakuScores(tegakiData, object, kanjiId, kakusu) {
-  const markerWidth = setStrokeWidth(kakusu) * 109 / canvasSize; // 109 = original svg width/height
-  const promises = new Array(kakusu);
+async function getKakuScores(tegakiData, object, kanjiId, kakusu) {
+  const scores = new Array(kakusu);
+  const svgSize = 109;
+  const markerWidth = setStrokeWidth(kakusu) * svgSize / canvasSize;
   for (let i = 0; i < kakusu; i++) {
-    promises[i] = new Promise((resolve) => {
-      if (tegakiData[i]) {
-        tegakiData[i].minWidth = markerWidth;
-        tegakiData[i].maxWidth = markerWidth;
-        const markerCanvas = document.createElement("canvas");
-        markerCanvas.setAttribute("width", canvasSize);
-        markerCanvas.setAttribute("height", canvasSize);
-        const markerContext = markerCanvas.getContext("2d");
-        const markerPad = new signaturePad(markerCanvas, {
-          minWidth: markerWidth,
-          maxWidth: markerWidth,
-          penColor: "black",
-        });
-        markerPad.fromData([tegakiData[i]]);
-        const kakuData =
-          markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
-        const kakuCount = countNoTransparent(kakuData);
-        getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d")
-            .getImageData(0, 0, canvasSize, canvasSize).data;
-          const tehonCount = countNoTransparent(tehonImgData);
+    if (tegakiData[i]) {
+      tegakiData[i].minWidth = markerWidth;
+      tegakiData[i].maxWidth = markerWidth;
+      const markerCanvas = document.createElement("canvas");
+      markerCanvas.setAttribute("width", canvasSize);
+      markerCanvas.setAttribute("height", canvasSize);
+      const markerContext = markerCanvas.getContext("2d");
+      const markerPad = new signaturePad(markerCanvas, {
+        minWidth: markerWidth,
+        maxWidth: markerWidth,
+        penColor: "black",
+      });
+      markerPad.fromData([tegakiData[i]]);
+      const kakuData =
+        markerContext.getImageData(0, 0, canvasSize, canvasSize).data;
+      const kakuCount = countNoTransparent(kakuData);
+      const tehonCanvas = await getTehonCanvas(object, kanjiId, kakusu, i + 1);
+      const tehonImgData = tehonCanvas.getContext("2d")
+        .getImageData(0, 0, canvasSize, canvasSize).data;
+      const tehonCount = countNoTransparent(tehonImgData);
 
-          const inclusionCount = getInclusionCount(kakuData, tehonImgData);
-          const kakuScore = calcKakuScore(
-            kakuCount,
-            tehonCount,
-            inclusionCount,
-          );
-          resolve([kakuScore, tehonCount]);
-        });
-      } else {
-        getTehonCanvas(object, kanjiId, kakusu, i + 1).then((tehonCanvas) => {
-          const tehonImgData = tehonCanvas.getContext("2d")
-            .getImageData(0, 0, canvasSize, canvasSize).data;
-          const tehonCount = countNoTransparent(tehonImgData);
-          resolve([0, tehonCount]);
-        });
-      }
-    });
+      const inclusionCount = getInclusionCount(kakuData, tehonImgData);
+      const kakuScore = calcKakuScore(
+        kakuCount,
+        tehonCount,
+        inclusionCount,
+      );
+      scores[i] = [kakuScore, tehonCount];
+    } else {
+      const tehonCanvas = await getTehonCanvas(object, kanjiId, kakusu, i + 1);
+      const tehonImgData = tehonCanvas.getContext("2d")
+        .getImageData(0, 0, canvasSize, canvasSize).data;
+      const tehonCount = countNoTransparent(tehonImgData);
+      scores[i] = [0, tehonCount];
+    }
   }
-  return promises;
+  return scores;
 }
 
 function initSVG(event) {
