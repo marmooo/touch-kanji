@@ -425,43 +425,40 @@ function setScoringButton(
   word,
 ) {
   const scoring = problemBox.shadowRoot.querySelector(".scoring");
-  scoring.addEventListener("click", () => {
-    getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads).then(
-      (scores) => {
-        if (scores.every((score) => score >= 80)) {
-          clearCount += 1;
-          problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
-          const next = problemBox.nextElementSibling;
-          if (next) {
-            const voiceOff = document.getElementById("voiceOn")
-              .classList.contains("d-none");
-            if (!voiceOff) {
-              const hira = words[clearCount].split("|")[1];
-              loopVoice(hira, repeatCount);
-            }
-            next.shadowRoot.querySelector(".guard").style.height = "0";
-            const headerHeight = document.getElementById("header").offsetHeight;
-            const top = next.getBoundingClientRect().top +
-              document.documentElement.scrollTop - headerHeight;
-            globalThis.scrollTo({ top: top, behavior: "smooth" });
-          }
+  scoring.addEventListener("click", async () => {
+    const scores = await getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads);
+    if (scores.every((score) => score >= 80)) {
+      clearCount += 1;
+      problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
+      const next = problemBox.nextElementSibling;
+      if (next) {
+        const voiceOff = document.getElementById("voiceOn")
+          .classList.contains("d-none");
+        if (!voiceOff) {
+          const hira = words[clearCount].split("|")[1];
+          loopVoice(hira, repeatCount);
         }
-        // 点数があまりにも低いものは合格リストから除外
-        let clearedKanjis = localStorage.getItem("touch-kanji");
-        if (clearedKanjis) {
-          let removed = false;
-          scores.forEach((score, i) => {
-            if (score < 40) {
-              clearedKanjis = clearedKanjis.replace(word[i], "");
-              removed = true;
-            }
-          });
-          if (removed) {
-            localStorage.setItem("touch-kanji", clearedKanjis);
-          }
+        next.shadowRoot.querySelector(".guard").style.height = "0";
+        const headerHeight = document.getElementById("header").offsetHeight;
+        const top = next.getBoundingClientRect().top +
+          document.documentElement.scrollTop - headerHeight;
+        globalThis.scrollTo({ top: top, behavior: "smooth" });
+      }
+    }
+    // 点数があまりにも低いものは合格リストから除外
+    let clearedKanjis = localStorage.getItem("touch-kanji");
+    if (clearedKanjis) {
+      let removed = false;
+      scores.forEach((score, i) => {
+        if (score < 40) {
+          clearedKanjis = clearedKanjis.replace(word[i], "");
+          removed = true;
         }
-      },
-    );
+      });
+      if (removed) {
+        localStorage.setItem("touch-kanji", clearedKanjis);
+      }
+    }
   });
 }
 
