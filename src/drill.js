@@ -430,7 +430,12 @@ function setScoringButton(
 ) {
   const scoring = problemBox.shadowRoot.querySelector(".scoring");
   scoring.addEventListener("click", async () => {
-    const scores = await getProblemScores(tegakiPanel, tehonPanel, objects, tegakiPads);
+    const scores = await getProblemScores(
+      tegakiPanel,
+      tehonPanel,
+      objects,
+      tegakiPads,
+    );
     if (scores.every((score) => score >= 80)) {
       clearCount += 1;
       problemBox.shadowRoot.querySelector(".guard").style.height = "100%";
@@ -738,12 +743,9 @@ function shuffle(array) {
   return array;
 }
 
-function fetchJson(grade) {
-  return new Promise((resolve) => {
-    fetch(`/touch-kanji/data/${grade + 1}.json`)
-      .then((response) => response.json())
-      .then((data) => resolve(data));
-  });
+async function fetchJson(grade) {
+  const response = await fetch(`/touch-kanji/data/${grade + 1}.json`);
+  return await response.json();
 }
 
 async function initWords() {
