@@ -1,4 +1,4 @@
-const CACHE_NAME = "2025-08-05 00:00";
+const CACHE_NAME = "2025-08-27 00:00";
 const urlsToCache = [
   "/touch-kanji/",
   "/touch-kanji/index.js",
