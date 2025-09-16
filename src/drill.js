@@ -1,5 +1,5 @@
-import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.1/esm/kanji.js";
-import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.1/esm/jkat.js";
+import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.2/esm/kanji.js";
+import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.2/esm/jkat.js";
 import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.0/+esm";
 
 const jkat = new Kanji(JKAT);
