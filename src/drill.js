@@ -1,6 +1,6 @@
 import { Kanji } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.2/esm/kanji.js";
 import { JKAT } from "https://cdn.jsdelivr.net/npm/@marmooo/kanji@0.1.2/esm/jkat.js";
-import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.1/+esm";
+import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.2/+esm";
 import { createWorker } from "https://cdn.jsdelivr.net/npm/emoji-particle@0.0.4/+esm";
 
 const jkat = new Kanji(JKAT);
