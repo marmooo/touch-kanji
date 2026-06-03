@@ -92,7 +92,7 @@ function setProblems() {
   for (let i = 0; i < JKAT[grade].length; i++) {
     const kanji = JKAT[grade][i];
     const url = `/touch-kanji/drill/?q=${kanji}`;
-    const klass = "me-1 mb-1 btn btn-sm btn-outline-secondary";
+    const klass = "btn btn-lg btn-outline-secondary";
     html += `<a href="${url}" class="${klass}">${kanji}</a>`;
   }
   problems.innerHTML = html;
